@@ -1,0 +1,22 @@
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="style.css" />
+</head>
+<body>
+<center><h2>Список жанров</h2></center>
+<table width=40% height=20% align="center" border=1>
+    <tr align="center">
+        <td>Жанр</td>
+        <td>Действия</td>
+    </tr>
+    <?php
+for ($i = 0; $i < count($genres); $i++) {
+    print "<tr align=\"center\">";
+    print '<td><a href="genres_books.php?genre_id=' . $genres[$i]->id . '">' . $genres[$i]->genre . '</a></td>';
+    print '<td><a href="delete_genre.php?genre_id=' . $genres[$i]->id . '">' . 'Удалить' . '</tr></td>';
+    }
+    ?>
+</table>
+<div style="text-align:center"><a href="index.php">Перейти на Главную</a></div>
+</body>
+</html

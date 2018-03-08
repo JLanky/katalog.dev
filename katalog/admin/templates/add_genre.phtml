@@ -1,0 +1,17 @@
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="style.css" />
+</head>
+<body >
+<br><br><br><br><br><br><br>
+<form action="add_genre.php"  method="post" name="frt" >
+    <table align="center">
+        <tr><td class="t2">Добавление нового жанра</td>
+            <td><input type="text" size="20" maxlength="20" name="genre" value="<?php
+echo $_POST["genre"];
+                ?>"></td></tr>
+        <tr><td colspan="2" align="center"><input type="submit"; name="vvod"; value="Добавить"; ></td></tr>
+    </table>
+    <div style="text-align:center"><a href="index.php">Перейти на Главную</a></div>
+</body>
+</html>

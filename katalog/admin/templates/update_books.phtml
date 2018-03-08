@@ -1,0 +1,63 @@
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="style.css"/>
+</head>
+<body>
+<br><br>
+<form action="update_books.php" method="post" name="frt">
+    <input type="hidden" name="book_id" value="<?php echo $book_id; ?>"/>
+    <table align="center">
+        <tr>
+            <td class="t2">Название:</td>
+            <td><input type="text" size="30" maxlength="30" name="name"
+                       value="<?php echo isset($_POST["name"]) ? $_POST["name"] : $book->name; ?>"></td>
+        </tr>
+        <tr>
+            <td class="t2">Автор:</td>
+            <td><?php
+
+
+                $a = '<select name="author[]" multiple="multiple">';
+
+                for ($g = 0, $G = count($authors_array); $g < $G; $g++) {
+                    $a .= '<option value="' . $authors_array[$g]->id . '" ' . ($book->isCurrentBookAuthor($authors_array[$g]->id) ? 'selected="selected"' : '') . '>' . $authors_array[$g]->author . '</option>';
+                }
+                $a .= '</select>';
+
+                echo $a;
+                ?>
+            </td>
+        </tr>
+        <tr>
+            <td class="t2">Жанр:</td>
+            <td><?php
+
+
+                $b = '<select name="genre[]" multiple="multiple">';
+
+                for ($g = 0, $G = count($genres_array); $g < $G; $g++) {
+                    $b .= '<option value="' . $genres_array[$g]->id . '" ' . ($book->isCurrentBookGenre($genres_array[$g]->id) ? 'selected="selected"' : '') . '>' . $genres_array[$g]->genre . '</option>';
+                }
+                $b .= '</select>';
+                echo $b;
+                ?>
+            </td>
+        </tr>
+        <tr>
+            <td class="t2">Цена:</td>
+            <td><input type="text" size="20" maxlength="20" name="tsena"
+                       value="<?php echo isset($_POST["tsena"]) ? $_POST["tsena"] : $book->tsena; ?>"></td>
+        </tr>
+        <tr>
+            <td class="t2">Описание:</td>
+            <td><textarea name="description"><?php echo $book->description; ?></textarea>
+        </tr>
+        <tr>
+            <td colspan="2" align="center"><input type="submit" ; name="saveBookData" ; value="Сохранить изменеиня">
+            </td>
+        </tr>
+    </table>
+</form>
+<div style="text-align:center"><a href="index.php">Перейти на Главную</a></div>
+</body>
+</html>

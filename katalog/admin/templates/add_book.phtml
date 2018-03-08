@@ -1,0 +1,44 @@
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="style.css" />
+</head>
+<body>
+<br><br>
+<form action="add_book.php"  method="post" name="frt" >
+    <table align="center">
+        <tr><td  class="t2"> введите название книги</td>
+            <td> <input type="text" size="30" maxlength="30" name="name" value="<?php
+echo $_POST["name"];
+                ?>"></td></tr>
+        <tr><td class="t2">выберите автора(ов) книги</td>
+            <td><?php
+$a = '<select name="author[]" multiple="multiple">';
+                for ($i = 0; $i < count($authors_array); $i++) {
+                $a .= '<option value="' . $authors_array[$i]->id . '">' . $authors_array[$i]->author . '</option>';
+                }
+                $a .= '</select>';
+                echo $a;
+                ?> </td></tr>
+        <tr><td class="t2">выберите жанр(ы) книги</td>
+            <td><?php
+$b            = '<select name="genre[]" multiple="multiple">';
+                for ($i = 0; $i < count($genres_array); $i++) {
+                $b .= '<option value="' . $genres_array[$i]->id . '">' . $genres_array[$i]->genre . '</option>';
+                }
+                $b .= '</select>';
+                echo $b;
+                ?> </td></tr>
+        <tr><td class="t2">введите цену книги</td>
+            <td> <input type="text" size="20" maxlength="20" name="tsena" value="<?php
+echo $_POST["tsena"];
+                ?>"></td></tr>
+        <tr><td  class="t2"> введите описание книги</td>
+            <td><textarea wrap="off" name="description"  value="<?php
+echo $_POST["description"];
+                ?>"> </textarea>
+        <tr><td colspan="2" align="center"><input type="submit"; name="vvod"; value="Добавить книгу"; ></td></tr>
+    </table>
+    <div style="text-align:center"><a href="index.php">Перейти на Главную</a></div>
+</body>
+</html>
+

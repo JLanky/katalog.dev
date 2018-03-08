@@ -1,0 +1,80 @@
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="style.css" />
+</head>
+<body>
+<br><br>
+<div style="text-align:center"><a href="add_author.php">Добавить автора</a></div>
+<div style="text-align:center"><a href="add_genre.php">Добавить жанр</a></div>
+<div style="text-align:center"><a href="add_book.php">Добавить книгу</a></div>
+<div style="text-align:center"><a href="delete_author.php">Удалить автора</a></div>
+<div style="text-align:center"><a href="delete_genre.php">Удалить жанр</a></div>
+<center><h2>Книжный каталог</h2></center>
+<table width=50% height=20% align="center" border=1>
+    <tr align="center">
+        <td>Название книги</td>
+        <td>Автор</td>
+        <td>Жанр</td>
+        <td>Стоимость</td>
+        <td colspan="2">Действия</td>
+    </tr>
+    <?php
+
+
+
+    for ($i = 0; $i < count($array); $i++) {
+
+        print "<tr align=\"center\">";
+
+    print '<td><a href="form.php?book_id='.$array[$i]->id.'">'. $array[$i]->name . '</a></td>';
+
+
+
+
+    print "<td>";
+
+
+        for($j = 0; $j < count($array[$i]->authors); $j++) {
+
+
+
+        if(isset($array[$i]->authors[$j])) {
+
+        print '<a href="authors_books.php?author_id='.$array[$i]->authors[$j]->id.'">'.$array[$i]->authors[$j]->author.'</a>';
+
+        if($j < count($array[$i]->authors) - 1) {
+        print ', ';
+        }
+        }
+        }
+
+        print "</td>";
+
+
+
+    print "<td>";
+        for($j = 0; $j < count($array[$i]->genres); $j++) {
+        if(isset($array[$i]->genres[$j])) {
+        print '<a href="genres_books.php?genre_id='.$array[$i]->genres[$j]->id.'">'.$array[$i]->genres[$j]->genre.'</a>';
+        if($j < count($array[$i]->genres) - 1) {
+        print ', ';
+        }
+        }
+        }
+        print "</td>";
+
+
+
+    print "<td>" . $array[$i]->tsena . "</td>";
+
+
+    print '<td><a href="index.php?book_id='.$array[$i]->id.'">Удалить'.'</td>';
+    print '<td><a href="update_books.php?book_id='.$array[$i]->id.'">Редактировать'.'</td>';
+
+    print "</tr>";
+    }
+
+    ?>
+</table>
+</body>
+</html>

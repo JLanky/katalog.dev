@@ -1,0 +1,22 @@
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="style.css" />
+</head>
+<body>
+<center><h2>Список авторов</h2></center>
+<table width=40% height=20% align="center" border=1>
+    <tr align="center">
+        <td>Автор</td>
+        <td>Действия</td>
+    </tr>
+    <?php
+for ($i = 0; $i < count($authors); $i++) {
+    print "<tr align=\"center\">";
+    print '<td><a href="authors_books.php?author_id=' . $authors[$i]->id . '">' . $authors[$i]->author . '</a></td>';
+    print '<td><a href="delete_author.php?author_id=' . $authors[$i]->id . '">' . 'Удалить' . '</tr></td>';
+    }
+    ?>
+</table>
+<div style="text-align:center"><a href="index.php">Перейти на Главную</a></div>
+</body>
+</html

@@ -1,0 +1,4 @@
+AuthType Basic
+AuthName "My Protected Area"
+AuthUserFile /var/www/katalog/admin/.htpasswd
+Require valid-user
