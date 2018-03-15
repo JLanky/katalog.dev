@@ -1,10 +1,10 @@
 <?php
 include "admin/config.php";
 if ($_POST) {
-    $error  = "";
-    $initials    = trim($_POST["initials"]);
+    $error = "";
+    $initials = trim($_POST["initials"]);
     $address = trim($_POST["address"]);
-    $quantity    = trim($_POST["quantity"]);
+    $quantity = trim($_POST["quantity"]);
 
     if (is_numeric($initials) && !empty($initials)) {
         $error .= "В строке ФИО вводятся только буквы<br>";
@@ -34,22 +34,20 @@ if ($_POST) {
 }
 
 if (!empty($_REQUEST['book_id'])) {
-    $book_id = (int) $_REQUEST['book_id'];
-    $book  = new Books($Db,$book_id);
+    $book_id = (int)$_REQUEST['book_id'];
+    $book = new Books($Db, $book_id);
 
     $authors = '';
-    $genres  = '';
-    $auth    = $book->authors;
-    $genr    = $book->genres;
+    $genres = '';
+    $auth = $book->authors;
+    $genr = $book->genres;
     for ($i = 0, $I = count($auth); $i < $I; $i++) {
 
         if (!empty($authors)) {
             $authors .= ',';
         }
-
         $authors .= '<a href="authors_books.php?author_id=' . $auth[$i]->id . '">' . $auth[$i]->author . '</a> ';
     }
-
 
 
     for ($i = 0; $i < count($genr); $i++) {
@@ -66,5 +64,5 @@ if (!empty($_REQUEST['book_id'])) {
     print 'Произошла ошибка';
 }
 require_once('admin/templates/form.phtml');
-?>
+
 

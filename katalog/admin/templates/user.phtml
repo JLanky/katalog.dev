@@ -1,47 +1,47 @@
 <html>
 <head>
-<link rel="stylesheet" type="text/css" href="style.css" />
+    <link rel="stylesheet" type="text/css" href="style.css"/>
 </head>
 <body>
 <br><br>
 <center><h2>Книжный каталог</h2></center>
 <table width=50% height=20% align="center" border=1>
-<tr align="center">
-<td>Название книги</td>
-<td>Автор</td>
-<td>Жанр</td>
-<td>Стоимость</td>
-</tr>
-<script>
-for ($i = 0, $l = count($array); $i < $l; $i++) {
-    print "<tr align=\"center\">";
-    print '<td><a href="form.php?book_id=' . $array[$i]->id . '">' . $array[$i]->name . '</a></td>';
-    print "<td>";
+    <tr align="center">
+        <td>Название книги</td>
+        <td>Автор</td>
+        <td>Жанр</td>
+        <td>Стоимость</td>
+    </tr>
+    <?php
+    for ($i = 0, $l = count($array); $i < $l; $i++) {
+        print "<tr align=\"center\">";
+        print '<td><a href="form.php?book_id=' . $array[$i]->id . '">' . $array[$i]->name . '</a></td>';
+        print "<td>";
 
-    for ($j = 0; $j < count($array[$i]->authors); $j++) {
-        if (isset($array[$i]->authors[$j])) {
-            print '<a href="authors_books.php?author_id=' . $array[$i]->authors[$j]->id . '">' . $array[$i]->authors[$j]->author . '</a>';
-            if ($j < count($array[$i]->authors) - 1) {
-                print ', ';
+        for ($j = 0; $j < count($array[$i]->authors); $j++) {
+            if (isset($array[$i]->authors[$j])) {
+                print '<a href="authors_books.php?author_id=' . $array[$i]->authors[$j]->id . '">' . $array[$i]->authors[$j]->author . '</a>';
+                if ($j < count($array[$i]->authors) - 1) {
+                    print ', ';
+                }
             }
         }
-    }
 
-    print "</td><td>";
+        print "</td><td>";
 
-    for ($j = 0; $j < count($array[$i]->genres); $j++) {
-        if (isset($array[$i]->genres[$j])) {
-            print '<a href="genres_books.php?genre_id=' . $array[$i]->genres[$j]->id . '">' . $array[$i]->genres[$j]->genre . '</a>';
-            if ($j < count($array[$i]->genres) - 1) {
-                print ', ';
+        for ($j = 0; $j < count($array[$i]->genres); $j++) {
+            if (isset($array[$i]->genres[$j])) {
+                print '<a href="genres_books.php?genre_id=' . $array[$i]->genres[$j]->id . '">' . $array[$i]->genres[$j]->genre . '</a>';
+                if ($j < count($array[$i]->genres) - 1) {
+                    print ', ';
+                }
             }
         }
+        print "</td>";
+        print "<td>" . $array[$i]->price . "</td>";
+        print "</tr>";
     }
-    print "</td>";
-    print "<td>" . $array[$i]->tsena . "</td>";
-    print "</tr>";
-}
-</script>
+    ?>
 </table>
 </body>
 </html>

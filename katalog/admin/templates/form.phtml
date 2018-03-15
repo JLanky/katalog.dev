@@ -1,37 +1,36 @@
+
 <html>
 <head>
-  <link rel="stylesheet" type="text/css" href="style.css" />
+    <link rel="stylesheet" type="text/css" href="style.css"/>
 </head>
 <body>
-Название: <b><?=htmlspecialchars($book->name)?></b><br/>
-Цена: <b><?=htmlspecialchars($book->tsena)?></b><br/>
-Описание: <b><?=htmlspecialchars($book->description)?></b><br/>
-Автор: <b><?php echo($authors )?></b><br/>
-Жанр: <b><?php echo($genres)?></b><br/>
+Название: <b><?= htmlspecialchars($book->name) ?></b><br/>
+Цена: <b><?= htmlspecialchars($book->price) ?></b><br/>
+Описание: <b><?= htmlspecialchars($book->description) ?></b><br/>
+Автор: <b><?= $authors ?></b><br/>
+Жанр: <b><?= $genres ?></b><br/>
 <h1>Форма заказа </h1>
 
 <form name="Login" action="form.php" method="post">
-  <input type="hidden" name="book_id" value="<?php
-echo $book_id;
-?>" />
-  <table border="0">
-    <tr>
-      <td>Ваше ФИО: </td>
-      <td><input type="text" name="initials" size="60"></td>
-    </tr>
-    <tr>
-      <td>Ваш Адрес: </td>
-      <td><input type="text" name="address" size="30"></td>
-    </tr>
-    <tr>
-      <td>Количество экземпляров: </td>
-      <td><input type="text" name="quantity" size="18"></td>
-    </tr>
+    <input type="hidden" name="book_id" value="<?= $book_id; ?>"/>
+    <table border="0">
+        <tr>
+            <td>Ваше ФИО:</td>
+            <td><input type="text" name="initials" size="60"></td>
+        </tr>
+        <tr>
+            <td>Ваш Адрес:</td>
+            <td><input type="text" name="address" size="30"></td>
+        </tr>
+        <tr>
+            <td>Количество экземпляров:</td>
+            <td><input type="text" name="quantity" size="18"></td>
+        </tr>
 
-  </table>
-  <input type="submit" name="SubmitButton" value="Отправить запрос">
+    </table>
+    <input type="submit" name="SubmitButton" value="Отправить запрос">
 </form>
 <br><br>
-<div style="text-align:center"><a href="user.php">Перейти на Главную</a></div>
+<div style="text-align:center"><a href="index.php">Перейти на Главную</a></div>
 </body>
 </html>

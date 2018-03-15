@@ -8,5 +8,5 @@ if (!empty($_GET['author_id'])) {
 }
 $authors = Authors::getAllAuthors($Db);
 require_once('templates/delete_author.phtml');
-?>
+
 

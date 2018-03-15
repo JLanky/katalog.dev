@@ -1,16 +1,19 @@
 <html>
 <head>
-    <link rel="stylesheet" type="text/css" href="style.css" />
+    <link rel="stylesheet" type="text/css" href="style.css"/>
 </head>
 <body>
 <br><br><br><br><br><br><br>
-<form action="add_author.php"  method="post" name="frt" >
+<form action="add_author.php" method="post" name="frt">
     <table align="center">
-        <tr><td class="t2">Добавление нового автора</td>
+        <tr>
+            <td class="t2">Добавление нового автора</td>
             <td><input type="text" size="20" maxlength="20" name="author" value="<?php
-echo $_POST["author"];
-                ?>"></td></tr>
-        <tr><td colspan="2" align="center"><input type="submit"; name="vvod"; value="Добавить"; ></td></tr>
+                echo $_POST["author"]; ?>"></td>
+        </tr>
+        <tr>
+            <td colspan="2" align="center"><input type="submit" ; name="vvod" ; value="Добавить" ;></td>
+        </tr>
     </table>
     <div style="text-align:center"><a href="index.php">Перейти на Главную</a></div>
 </body>

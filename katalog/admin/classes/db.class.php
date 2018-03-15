@@ -10,6 +10,8 @@ class Db
 
     private $pass;
 
+    public $result;
+
     private $link;
 
     public $query;
@@ -18,13 +20,13 @@ class Db
 
     public $param;
 
-    public function __construct($h, $n, $p, $db)
+    public function __construct($host, $name, $pass, $db)
     {
-        $this->host = $h;
+        $this->host = $host;
 
-        $this->name = $n;
+        $this->name = $name;
 
-        $this->pass = $p;
+        $this->pass = $pass;
 
         $this->database = $db;
 
@@ -41,9 +43,9 @@ class Db
 
     public function query($query)
     {
-        //var_dump($this->result);die();
-        $this->error = ($this->result = mysqli_query($this->link,$query ));
-        if (mysqli_errno($this->error)) {
+        $this->result = mysqli_query($this->link,$query );
+        //var_dump($this->result);
+        if (!$this->result) {
             print 'Query failed<br>' . mysqli_errno($this->error);
         }
         return $this->result;
