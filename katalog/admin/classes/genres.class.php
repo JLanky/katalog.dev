@@ -4,16 +4,12 @@ class Genres {
 
     public static function getAllGenres($Db,$book_id=0) {
         if ($book_id!=0){
-            $id=$Db->getOneField('genre_id','SELECT * FROM books_genres WHERE book_id='.$book_id.'');
+            $id=$Db->getOneField('genre','SELECT * FROM books_genres WHERE book_id='.$book_id);
         }else{
-            $id=$Db->getOneField('genre_id','SELECT * FROM genres');
+            $id=$Db->getOneField('genre','SELECT * FROM genres');
         }
-        $return = array();
-        for($i = 0; $i < count($id); $i++) {
-            $return[] = new Genres($Db, $id[$i]);
-        }
-        return $return;
-
+       // var_dump($id);
+        return $id;
     }
 
 

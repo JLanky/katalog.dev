@@ -44,7 +44,7 @@ class Books
         $this->Db = $Db;
         $this->id = $id;
         $this->name = $book['name'];
-        $this->price = $book['tsena'];
+        $this->price = $book['price'];
         $this->description = $book['description'];
         $this->authors = Authors::getAllAuthors($Db, $id);
         $this->genres = Genres::getAllGenres($Db, $id);
@@ -55,7 +55,7 @@ class Books
         if (!empty($data)) {
 
             $name = trim($data["name"]);
-            $tsena = trim($data["tsena"]);
+            $price = trim($data["price"]);
             $description = trim($data["description"]);
             $authors = ($data["author"]);
             $genres = ($data["genre"]);
@@ -76,7 +76,7 @@ class Books
                 $error .= "Добавьте жанры, пожалуйста<br>";
             }
 
-            if (!is_numeric($tsena) && !empty($tsena)) {
+            if (!is_numeric($price) && !empty($price)) {
                 $error .= "в строке цена вводятся только цифры<br>";
             }
 
@@ -86,7 +86,7 @@ class Books
             if ((strlen($description) == 0)) {
                 $error .= "Вы не заполнили поле 'описание'<br>";
             }
-            if (empty($tsena)) {
+            if (empty($price)) {
                 $error .= "Вы не заполнили поле 'цена'";
             }
             if ($error != "") {
@@ -102,12 +102,13 @@ class Books
     public function addBook($data)
     {
         if (!$this->validateBook($data) && !empty($data)) {
-            $name = trim($data["name"]);
-            $tsena = trim($data["tsena"]);
+            $title = trim($data["name"]);
+            $price = trim($data["price"]);
             $description = trim($data["description"]);
             $authors = ($data["author"]);
             $genres = ($data["genre"]);
-            $sqlbooks = "INSERT INTO `test`.`books` (`name`,`description`,`tsena`) VALUES ('$name','$description','$tsena');";
+            var_dump($data);
+            $sqlbooks = "INSERT INTO `books` (`title`,`description`,`price`) VALUES ('$title','$description','$price');";
             $result3 = $this->Db->query($sqlbooks);
             $new_book_id = mysqli_insert_id();
 
@@ -146,7 +147,7 @@ class Books
 
                     case 'name':
                     case 'description':
-                    case 'tsena':
+                    case 'price':
 
                         $sqlbooks = $this->Db->query('UPDATE books SET `' . $k . '` = "' . $v . '" WHERE book_id =' . $this->id . ' LIMIT 1');
 

@@ -43,11 +43,7 @@ class Db
 
     public function query($query)
     {
-        $this->result = mysqli_query($this->link,$query );
-        //var_dump($this->result);
-        if (!$this->result) {
-            print 'Query failed<br>' . mysqli_errno($this->error);
-        }
+        $this->result = mysqli_query($this->link, $query);
         return $this->result;
     }
 
@@ -72,19 +68,12 @@ class Db
 
     public function getOneField($param, $query)
     {
-        if (is_string($query)) {
-            $this->query($query);
-
-        } else {
-            $this->result = $query;
-        }
+        $this->query($query);
         $answer = array();
         if (!empty($this->result) && !$this->error) {
 
             while ($row = mysqli_fetch_array($this->result)) {
-                if (array_key_exists($param, $row)) {
-                    $answer[] = $row[$param];
-                }
+                $answer[] = $row[$param];
             }
         }
         return $answer;

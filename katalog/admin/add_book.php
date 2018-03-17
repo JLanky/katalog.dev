@@ -6,6 +6,6 @@ if ($_POST) {
 }
 $authors_array = Authors::getAllAuthors($Db);
 $genres_array  = Genres::getAllGenres($Db);
-require_once('templates/add_book.phtml');
-?>
+//var_dump($genres_array);
 
+require_once('templates/add_book.phtml');
