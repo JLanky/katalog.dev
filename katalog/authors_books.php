@@ -1,9 +1,9 @@
 <?php
 include "admin/config.php";
 if (!empty($_GET['author_id'])) {
-    $author_id = (int) $_GET['author_id'];
-    $author=new Authors($Db,$author_id);
-    $books=$author->getCurrentAuthorBooks();
+    $author_id = (int)$_GET['author_id'];
+    $author = new Authors($Db, $author_id);
+    $books = $author->getCurrentAuthorBooks();
     print '<h2><strong style="margin: 0 auto">Список книг автора ' . $author->author . '</strong></h2>';
 
     for ($g = 0, $G = count($books); $g < $G; $g++) {

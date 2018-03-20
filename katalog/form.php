@@ -34,13 +34,15 @@ if ($_POST) {
 }
 
 if (!empty($_REQUEST['book_id'])) {
-    $book_id = (int)$_REQUEST['book_id'];
-    $book = new Books($Db, $book_id);
 
+    $book_id = (int)$_REQUEST['book_id'];
+
+    $book = new Books($Db, $book_id);
+var_dump($book->);
     $authors = '';
     $genres = '';
-    $auth = $book->authors;
-    $genr = $book->genres;
+  //  $auth = $book->authors;
+    //$genr = $book->genres;
     for ($i = 0, $I = count($auth); $i < $I; $i++) {
 
         if (!empty($authors)) {

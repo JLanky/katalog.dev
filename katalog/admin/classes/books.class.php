@@ -2,21 +2,39 @@
 
 class Books
 {
+    private $Db;
+    private $id;
+    private $name;
+    private $price;
+    private $description;
+    private $authors;
+    private $genres;
+
+    public function __construct($Db, $id = 0)
+    {
+
+        $book = $Db->getOne('SELECT * FROM books WHERE book_id= ?', $id);
+        $this->Db = $Db;
+        $this->id = $id;
+        $this->name = $book[0]['title'];
+        $this->price = $book[0]['price'];
+        $this->description = $book[0]['description'];
+
+        $this->authors = Authors::getAllAuthors($this->Db);
+
+        $this->genres = Genres::getAllGenres($this->Db);
+    }
 
 
     public static function getAllBooks($Db)
     {
-        $return = array();
-        $id = $Db->getOneField('book_id', 'SELECT * FROM books');
-
-
-        for ($i = 0; $i < count($id); $i++) {
-            $return[] = new Books($Db, $id[$i]);
-        }
-        return $return;
-
+        $allBooks = $Db->getOneField('SELECT * FROM books
+            LEFT JOIN books_authors ON books_authors.book_id = books.book_id
+            LEFT JOIN books_genres ON  books_genres.book_id = books.book_id
+            LEFT JOIN authors ON authors.author_id = books_authors.author_id
+            LEFT JOIN genres ON  genres.id = books_genres.genre_id');
+            return $allBooks;
     }
-
     public function isCurrentBookAuthor($id)
     {
         for ($i = 0, $l = count($this->authors); $i < $l; $i++) {
@@ -37,18 +55,6 @@ class Books
         return false;
     }
 
-    public function __construct($Db, $id = 0)
-    {
-
-        $book = $Db->getOne('SELECT * FROM books WHERE book_id=' . $id);
-        $this->Db = $Db;
-        $this->id = $id;
-        $this->name = $book['name'];
-        $this->price = $book['price'];
-        $this->description = $book['description'];
-        $this->authors = Authors::getAllAuthors($Db, $id);
-        $this->genres = Genres::getAllGenres($Db, $id);
-    }
 
     public function validateBook($data)
     {

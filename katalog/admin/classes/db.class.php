@@ -2,81 +2,89 @@
 
 class Db
 {
-    private $host;
-
-    private $database;
-
-    private $name;
-
-    private $pass;
-
-    public $result;
-
-    private $link;
-
-    public $query;
-
-    public $error;
-
-    public $param;
+    private $host = 'localhost';
+    private $database = 'test';
+    private $name = 'root';
+    private $pass = 'root';
+    public $dsn;
+    private $bConnected = false;
+    private $result;
+    private $pdo;
+    private $query;
+    private $param;
+    private $charset = 'utf8';
 
     public function __construct($host, $name, $pass, $db)
     {
         $this->host = $host;
-
         $this->name = $name;
-
         $this->pass = $pass;
-
         $this->database = $db;
 
-
         $this->connect();
-
     }
 
-    public function connect()
+    function connect()
     {
-        $this->link = mysqli_connect($this->host, $this->name, $this->pass, $this->database) or die("Could not connect");
+        try {
+            $this->dsn = "mysql:host=$this->host;dbname=$this->database;charset=$this->charset";
+            $opt = [
+                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+                PDO::ATTR_EMULATE_PREPARES => false,
+            ];
+            $this->pdo = new PDO($this->dsn, $this->name, $this->pass, $opt);
 
-    }
-
-    public function query($query)
-    {
-        $this->result = mysqli_query($this->link, $query);
-        return $this->result;
-    }
-
-    public function getOne($query)
-    {
-        if (is_string($query)) {
-
-            $this->query($query);
-
-        } else {
-            $this->result = $query;
+            # Connection succeeded, set the boolean to true.
+            $this->bConnected = true;
+        } catch (PDOException $e) {
+            #Get the message with error
+            die($e->getMessage());
         }
-
-        if (!empty($this->result) && !$this->error) {
-            $row = mysqli_fetch_array($this->result);
-
-        } else {
-            return false;
-        }
-        return $row;
     }
 
-    public function getOneField($param, $query)
+    public function closeConnection()
     {
-        $this->query($query);
-        $answer = array();
-        if (!empty($this->result) && !$this->error) {
+        # Set the PDO object to null to close the connection
+        $this->pdo = null;
+    }
 
-            while ($row = mysqli_fetch_array($this->result)) {
-                $answer[] = $row[$param];
+    public function getOne($query, $id)
+    {
+        $idArray = array($id);
+
+        if (!$this->bConnected) {
+            self::connect();
+        }
+        $pdo = $this->pdo;
+
+        try {
+            if (is_string($query)) {
+                $row = $pdo->prepare($query);
+                $this->result = $row->execute($idArray);
+                $this->result = $row->fetchAll(PDO::FETCH_ASSOC);
+
+            } else {
+                $this->result = $query;
             }
+
+        } catch (PDOException $e) {
+            $e->getMessage();
+            die();
         }
-        return $answer;
+        self::closeConnection();
+        return  $this->result;
+    }
+
+
+    public function getOneField($query)
+    {
+        if (!$this->bConnected) {
+            self::connect();
+            $rows = $this->pdo->query($query)->fetchAll(PDO::FETCH_ASSOC);
+            return $rows;
+        }
+        self::closeConnection();
     }
 
 

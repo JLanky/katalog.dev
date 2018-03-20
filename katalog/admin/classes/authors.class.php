@@ -2,32 +2,27 @@
 
 class Authors
 {
-
-
-    public static function getAllAuthors($db, $book_id = 0)
+    public static function getAllAuthors($db)
     {
-        if ($book_id != 0) {
-            $id = $db->getOneField('author_id', 'SELECT * FROM books_authors WHERE book_id=' . $book_id);
-        } else {
-            $id = $db->getOneField('author_id', 'SELECT * FROM authors');
-        }
+            $id = $db->getOneField('SELECT * FROM books
+            LEFT JOIN books_authors ON books_authors.book_id = books.book_id
+            LEFT JOIN books_genres ON  books_genres.book_id = books.book_id
+            LEFT JOIN authors ON authors.author_id = books_authors.author_id
+            LEFT JOIN genres ON  genres.id = books_genres.genre_id');
+
         $result = array();
-        for ($i = 0; $i < count($id); $i++) {
+        for ($i = 0; $i < count($id); $i++){
             $result[] = new Authors($db, $id[$i]);
         }
         return $result;
     }
 
-
     public function __construct($Db, $id = 0)
     {
-
         $author = $Db->getOne('SELECT * FROM authors WHERE author_id=' . $id);
-
         $this->Db = $Db;
         $this->id = $id;
         $this->author = $author['author'];
-
     }
 
 
