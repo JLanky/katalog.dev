@@ -1,3 +1,6 @@
+<?php
+include '../classes/db.class.php';
+?>
 <html>
 <head>
     <link rel="stylesheet" type="text/css" href="style.css"/>
@@ -19,59 +22,34 @@
         <td colspan="2">Действия</td>
     </tr>
     <?php
-    $db = new Db('localhost', 'root', 'root', 'test');
-    $db->connect();
-    $query = 'SELECT * FROM `authors` ';
-    $result[] = $db->query($query)->fetch_all();
-
-    for ($i = 0; $i < count($array); $i++) {
-
-        print "<tr align=\"center\">";
-
-        print '<td><a href="form.php?book_id=' . $array[$i]->id . '">' . $array[$i]->name . '</a></td>';
-
-
-        print "<td>";
-
-
-        for ($j = 0; $j < count($array[$i]->authors); $j++) {
-
-
-            if (isset($array[$i]->authors[$j])) {
-
-                print '<a href="authors_books.php?author_id=' . $array[$i]->authors[$j]->id . '">' . $array[$i]->authors[$j]->author . '</a>';
-
-                if ($j < count($array[$i]->authors) - 1) {
-                    print ', ';
+    $bookObject = new Books(new Db());
+    $books = $bookObject->getAllBooks();
+    $authors = array();
+    $genres = array();
+    foreach ($books as $book) :?>
+        <tr align="center">
+            <td><a href="form.php?book_id=<?= $book['book_id']?>"> <?= $book['title'] ?> </a></td>
+            <td>
+                <?php foreach ($book['authors'] as $author) {
+                    $authors[] = '<a href="authors_books.php?author_id=' . $author['author_id'] . '">' . $author['author'] . '</a>';
+                } ?>
+                <?= implode(', ', $authors) ?>
+            </td>
+            <td>
+                <?php foreach ($book['genres'] as $genre) {
+                    $genres[] = '<a href="genres_books.php?genre_id=' . $genre['id'] . '">' .
+                        $genre['genre'] . '</a>';
                 }
-            }
-        }
+                ?>
+                <?= implode(', ',$genres) ?>
+            </td>
+            <td><?= $book['price']; ?></td>
 
-        print "</td>";
+            <td><a href="index.php?book_id=<?= $book['book_id'] ?>">Удалить</td>
+            <td><a href="update_books.php?book_id=<?= $book['book_id'] ?>">Редактировать</td>
 
-
-        print "<td>";
-        for ($j = 0; $j < count($array[$i]->genres); $j++) {
-            if (isset($array[$i]->genres[$j])) {
-                print '<a href="genres_books.php?genre_id=' . $array[$i]->genres[$j]->id . '">' . $array[$i]->genres[$j]->genre . '</a>';
-                if ($j < count($array[$i]->genres) - 1) {
-                    print ', ';
-                }
-            }
-        }
-        print "</td>";
-
-
-        print "<td>" . $array[$i]->price . "</td>";
-
-
-        print '<td><a href="index.php?book_id=' . $array[$i]->id . '">Удалить' . '</td>';
-        print '<td><a href="update_books.php?book_id=' . $array[$i]->id . '">Редактировать' . '</td>';
-
-        print "</tr>";
-    }
-
-    ?>
+        </tr>
+    <?php endforeach; ?>
 </table>
 </body>
 </html>

@@ -14,17 +14,16 @@ class Db
     private $param;
     private $charset = 'utf8';
 
-    public function __construct($host, $name, $pass, $db)
+    public function __construct($host='localhost', $name='root', $pass='root', $db='test')
     {
         $this->host = $host;
         $this->name = $name;
         $this->pass = $pass;
         $this->database = $db;
-
         $this->connect();
     }
 
-    function connect()
+    public function connect()
     {
         try {
             $this->dsn = "mysql:host=$this->host;dbname=$this->database;charset=$this->charset";
@@ -34,7 +33,6 @@ class Db
                 PDO::ATTR_EMULATE_PREPARES => false,
             ];
             $this->pdo = new PDO($this->dsn, $this->name, $this->pass, $opt);
-
             # Connection succeeded, set the boolean to true.
             $this->bConnected = true;
         } catch (PDOException $e) {
@@ -51,61 +49,50 @@ class Db
 
     public function getOne($query, $id)
     {
-        $idArray = array($id);
 
-        if (!$this->bConnected) {
-            self::connect();
-        }
-        $pdo = $this->pdo;
+        $ids = array($id);
+
+            $this->connect();
 
         try {
-            if (is_string($query)) {
-                $row = $pdo->prepare($query);
-                $this->result = $row->execute($idArray);
-                $this->result = $row->fetchAll(PDO::FETCH_ASSOC);
-
-            } else {
-                $this->result = $query;
-            }
+            $row = $this->pdo->prepare($query);
+            $row->execute($ids);
+            $this->result = $row->fetch(PDO::FETCH_ASSOC);
 
         } catch (PDOException $e) {
             $e->getMessage();
             die();
         }
-        self::closeConnection();
-        return  $this->result;
-    }
 
+        $this->closeConnection();
+
+        return $this->result;
+    }
 
     public function getOneField($query)
     {
-        if (!$this->bConnected) {
-            self::connect();
-            $rows = $this->pdo->query($query)->fetchAll(PDO::FETCH_ASSOC);
-            return $rows;
-        }
+        self::connect();
+        $rows = $this->pdo->query($query)->fetchAll(PDO::FETCH_ASSOC);
         self::closeConnection();
+        return $rows;
     }
-
 
     public function getAll($query)
     {
-        $ans = array();
-        if (is_string($query)) {
-            $this->query($query);
-
-        } else {
-            $this->result = $query;
-        }
-
-        if (!empty($this->result) && !$this->error) {
-            while ($row = mysqli_fetch_array($this->result)) {
-                $ans[] = $row;
-            }
-        }
-
-        return $ans;
+        $this->connect();
+        $result = $this->pdo->query($query);
+        $this->result =$result->fetchAll();
+        $this->closeConnection();
+        return $this->result;
     }
+
+    public function addField($query){
+        $this->connect();
+        $this->pdo->query($query);
+        $this->closeConnection();
+    }
+
+
 }
 
 

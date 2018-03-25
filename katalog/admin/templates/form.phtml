@@ -4,12 +4,12 @@
     <link rel="stylesheet" type="text/css" href="style.css"/>
 </head>
 <body>
-<?php //var_dump($book);?>
-Название: <b><?= htmlspecialchars($book->name) ?></b><br/>
-Цена: <b><?= htmlspecialchars($book->price) ?></b><br/>
-Описание: <b><?= htmlspecialchars($book->description) ?></b><br/>
-Автор: <b><?= $authors ?></b><br/>
-Жанр: <b><?= $genres ?></b><br/>
+
+Название: <b><?= htmlspecialchars($book['title']) ?></b><br/>
+Цена: <b><?= htmlspecialchars($book['price']) ?></b><br/>
+Описание: <b><?= htmlspecialchars($book['description']) ?></b><br/>
+Автор: <b><?= implode(', ',$authorsHTML) ?></b><br/>
+Жанр: <b><?= implode(', ',$genresHTML) ?></b><br/>
 <h1>Форма заказа </h1>
 
 <form name="Login" action="form.php" method="post">

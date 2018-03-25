@@ -1,13 +1,19 @@
 <?php
 include "admin/config.php";
+
 if (!empty($_GET['author_id'])) {
     $author_id = (int)$_GET['author_id'];
-    $author = new Authors($Db, $author_id);
-    $books = $author->getCurrentAuthorBooks();
-    print '<h2><strong style="margin: 0 auto">Список книг автора ' . $author->author . '</strong></h2>';
 
-    for ($g = 0, $G = count($books); $g < $G; $g++) {
-        print '<div style="text-align:center"><a href="form.php?book_id=' . $books[$g]->book_id . '">' . $books[$g]->name . '</a></div><br>';
+    $authorObject = new Authors($Db);
+    $authorObject->getAuthor($author_id);
+
+    $books = $authorObject->getCurrentAuthorBooks();
+
+    echo '<h2><strong style="margin: 0 auto">Список книг автора ' . $authorObject->getAuthorName() . '</strong></h2>';
+    foreach ($books as $book){
+        echo '<div style="text-align:center">
+<a href="form.php?book_id=' . $book['book_id'] . '">' .$book['title']  . '</a></div><br>';
+
     }
 
 

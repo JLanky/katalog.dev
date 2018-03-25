@@ -1,69 +1,80 @@
 <?php
-class Genres {
 
+class Genres
+{
+    private $db;
+    private $id;
+    private $genre;
 
-    public static function getAllGenres($Db,$book_id=0) {
-        if ($book_id!=0){
-            $id=$Db->getOneField('genre','SELECT * FROM books_genres WHERE book_id='.$book_id);
-        }else{
-            $id=$Db->getOneField('genre','SELECT * FROM genres');
+    public static function getAllGenres($Db, $book_id = 0)
+    {
+        if ($book_id != 0) {
+            $id = $Db->getOneField('genre', 'SELECT * FROM books_genres WHERE book_id=' . $book_id);
+        } else {
+            $id = $Db->getOneField('genre', 'SELECT * FROM genres');
         }
-       // var_dump($id);
+        // var_dump($id);
         return $id;
     }
 
 
-    public function __construct($Db, $id=0) {
+    public function __construct($Db, $id = 0)
+    {
+        $this->db = $Db;
+        $this->id = $id;
+    }
 
-        $genre=$Db->getOne('SELECT * FROM genres WHERE genre_id='.$id.'');
-        $this->Db =           $Db;
-        $this->id =           $id;
-        $this->genre =        $genre['genre'];
+    public function getGenreBooks()
+    {
+
+        $query = 'SELECT * FROM books_genres
+          LEFT JOIN genres ON  genres.id = books_genres.genre_id
+          LEFT JOIN books ON books.book_id = books_genres.book_id
+          WHERE books_genres.genre_id=' . $this->id;
+
+        $result = $this->db->getAll($query);
+
+        return $result;
 
     }
-    public function getCurrentGenreBooks(){
-        $return = array();
 
-        $id=$this->Db->getOneField('book_id','SELECT * FROM books_genres WHERE genre_id='.$this->id.'');
+    public function getGenre($id)
+    {
 
-
-        for($i = 0; $i < count($id); $i++) {
-            $return[] = new Books($this->Db, $id[$i]);
-        }
-        return $return;
-
+        $genre = $this->db->getOne('SELECT * FROM genres WHERE id=?', $id);
+        $this->genre = $genre['genre'];
+        return $this->genre;
     }
-    public function deleteGenre($id){
-        $genre_id           = (int) $id;
+
+    public function deleteGenre($id)
+    {
+        $genre_id = (int)$id;
         if (!empty($id)) {
-            $del_genre        = $this->Db->query('DELETE FROM `genres` WHERE genre_id="' . $genre_id . '"');
-            $del_genres_books = $this->Db->query('DELETE FROM `books_genres` WHERE genre_id="' . $genre_id . '"');
+            $del_genre = $this->db->query('DELETE FROM `genres` WHERE genre_id="' . $genre_id . '"');
+            $del_genres_books = $this->db->query('DELETE FROM `books_genres` WHERE genre_id="' . $genre_id . '"');
             print "<center class=\"t2\">Данные успешно удалены</center> ";
-        }
-        else{
+        } else {
             print'ID жанра задан неверно';
         }
     }
 
-    public function addGenre($data){
+    public function addGenre($data)
+    {
+        if (!empty($data) && !empty($data['genre'])) {
 
-        if (!empty($data) && !empty($data['genre'])){
+            $genre = $data['genre'];
 
-            $genre=$data['genre'];
+            $query = "INSERT INTO `test`.`genres` (`genre`) VALUES ('$genre');";
 
-            $sqlgenres = "INSERT INTO `test`.`genres` (`genre`) VALUES ('$genre');";
-
-            $result1 = $this->Db->query($sqlgenres);
+            $this->db->addField($query);
 
             print "<center class=\"t2\">Данные успешно добавлены</center> ";
-        }
-        else{
+        } else {
             $error = '';
             $error .= "Вы не заполнили поле жанр<br>";
 
             print "<center class=\"t\">$error</center> ";
         }
     }
-
 
 }

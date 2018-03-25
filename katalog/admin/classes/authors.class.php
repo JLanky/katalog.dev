@@ -2,66 +2,62 @@
 
 class Authors
 {
+    public $Db;
+    public $id;
+    public $author;
+
     public static function getAllAuthors($db)
     {
-            $id = $db->getOneField('SELECT * FROM books
+        $result = $db->getOneField('SELECT * FROM books
             LEFT JOIN books_authors ON books_authors.book_id = books.book_id
             LEFT JOIN books_genres ON  books_genres.book_id = books.book_id
             LEFT JOIN authors ON authors.author_id = books_authors.author_id
             LEFT JOIN genres ON  genres.id = books_genres.genre_id');
 
-        $result = array();
-        for ($i = 0; $i < count($id); $i++){
-            $result[] = new Authors($db, $id[$i]);
-        }
         return $result;
     }
 
-    public function __construct($Db, $id = 0)
+    public function __construct($Db)
     {
-        $author = $Db->getOne('SELECT * FROM authors WHERE author_id=' . $id);
-        $this->Db = $Db;
-        $this->id = $id;
-        $this->author = $author['author'];
-    }
-
-
-    public function deleteAuthor($id)
-    {
-        $author_id = (int)$id;
-        if (!empty($id)) {
-            $del_author = $this->Db->query('DELETE FROM `authors` WHERE author_id="' . $author_id . '"');
-            $del_authors_books = $this->Db->query('DELETE FROM `books_authors` WHERE author_id="' . $author_id . '"');
-            print "<center class=\"t2\">Автор удален успешно.</center> ";
-        } else {
-            print'ID указано неверно. Повторите попытку';
-        }
+        $this->db = $Db;
     }
 
     public function getCurrentAuthorBooks()
     {
-        $return = array();
+        $query = 'SELECT * FROM books_authors
+          LEFT JOIN books ON  books.book_id = books_authors.book_id
+          LEFT JOIN authors ON authors.author_id = books_authors.author_id
+          WHERE books_authors.author_id=' . $this->id;
 
-        $id = $this->Db->getOneField('book_id', 'SELECT * FROM books_authors WHERE author_id=' . $this->id);
-
-
-        for ($i = 0; $i < count($id); $i++) {
-            $return[] = new Books($this->Db, $id[$i]);
-        }
-        return $return;
-
+        $queryResult = $this->db->getAll($query);
+        return $queryResult;
     }
 
-    public function addAuthor($data)
+    public function getAuthor($id)
     {
+        $author = $this->db->getOne('SELECT * FROM books_authors
+          LEFT JOIN books ON  books.book_id = books_authors.book_id
+          LEFT JOIN authors ON authors.author_id = books_authors.author_id
+          WHERE books_authors.author_id=?', $id);
+        if (!empty($author)) {
+            $this->id = $id;
+        }
+        $this->author = $author;
+    }
 
+    function getAuthorName()
+    {
+        return $this->author['author'];
+    }
+
+    public function addAuthor($data){
         if (!empty($data) && !empty($data['author'])) {
 
             $author = $data['author'];
 
-            $sqlauthors = "INSERT INTO `test`.`authors` (`author`) VALUES ('$author');";
+            $query = "INSERT INTO `test`.`authors` (`author`) VALUES ('$author');";
 
-            $result1 = $this->Db->query($sqlauthors);
+            $this->db->addField($query);
 
             print "<center class=\"t2\">Автор добавлен успешно</center> ";
         } else {
@@ -71,6 +67,16 @@ class Authors
             print "<center class=\"t\">$error</center> ";
         }
     }
+    public function deleteAuthor($data){
+        if (!empty($data) && !empty($data['author'])) {
+            $author_id = $data['author_id'];
+            $query = "DELETE FROM `authors` WHERE author_id=". $author_id;
 
+            $this->db->addField($query);
 
+            print "<center class=\"t2\">Автор удален успешно.</center> ";
+        } else {
+            print'ID указано неверно. Повторите попытку';
+        }
+    }
 }
