@@ -10,5 +10,5 @@ $genres = new Genres($Db);
 
 $authors = $authors->getAuthorsList($Db);
 $genres = $genres->getGenresList($Db);
-var_dump($genres);
+
 require_once('templates/add_book.phtml');
