@@ -1,10 +1,13 @@
-
+<?php
+include '../classes/db.class.php';
+?>
 <html>
 <head>
     <link rel="stylesheet" type="text/css" href="style.css"/>
 </head>
 <body>
 <br><br>
+
 <center><h2>Книжный каталог</h2></center>
 <table width=50% height=20% align="center" border=1>
     <tr align="center">
@@ -12,25 +15,35 @@
         <td>Автор</td>
         <td>Жанр</td>
         <td>Стоимость</td>
+
     </tr>
-
-    <?php foreach ($book as $value):
-        var_dump($value);?>
-
+    <?php
+    $bookObject = new Books(new Db());
+    $books = $bookObject->getAllBooks();
+    $authors = array();
+    $genres = array();
+    foreach ($books as $book) :?>
         <tr align="center">
+            <td><a href="form.php?book_id=<?= $book['book_id']?>"> <?= $book['title'] ?> </a></td>
             <td>
-                <a href="form.php?book_id=<?= $value['book_id'] ?>"> <?= $value['title'] ?> </a>
+                <?php foreach ($book['authors'] as $author) {
+                    $authors[] = '<a href="authors_books.php?author_id=' . $author['author_id'] . '">' . $author['author'] . '</a>';
+                } ?>
+                <?= implode(', ', $authors) ?>
             </td>
             <td>
-                <a href="authors_books.php?author_id=<?=$value['author_id']?>"><?=$value['author']?></a>
+                <?php foreach ($book['genres'] as $genre) {
+                    $genres[] = '<a href="genres_books.php?genre_id=' . $genre['id'] . '">' .
+                        $genre['genre'] . '</a>';
+                }
+                ?>
+                <?= implode(', ',$genres) ?>
             </td>
-            <td><a href="genres_books.php?genre_id=<?=$value['genre_id']?>"><?=$value['genre']?></a>
-            </td>
+            <td><?= $book['price']; ?></td>
 
-            <td><?= $value['price']?></td>
+            <td><a href="form.php?book_id=<?= $book['book_id'] ?>">Заказать</td>
         </tr>
     <?php endforeach; ?>
-
 </table>
 </body>
 </html>
