@@ -35,9 +35,7 @@ WHERE books.book_id =' . $bookId);
         return $genres;
     }
 
-    public function getAllBooks()
-    {
-
+    public function getAllBooks(){
         $books = $this->db->getAll('SELECT * FROM books');
         foreach ($books as $key=>$book) {
             $books[$key]['authors'] = $this->getBookAuthors($book['book_id']);

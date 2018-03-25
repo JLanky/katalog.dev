@@ -26,6 +26,7 @@ include '../classes/db.class.php';
     $books = $bookObject->getAllBooks();
     $authors = array();
     $genres = array();
+    var_dump($books);
     foreach ($books as $book) :?>
         <tr align="center">
             <td><a href="form.php?book_id=<?= $book['book_id']?>"> <?= $book['title'] ?> </a></td>

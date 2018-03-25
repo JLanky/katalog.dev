@@ -1,3 +1,4 @@
+
 <html>
 <head>
     <link rel="stylesheet" type="text/css" href="style.css"/>
@@ -12,7 +13,10 @@
         <td>Жанр</td>
         <td>Стоимость</td>
     </tr>
-    <?php foreach ($array as $value): ?>
+
+    <?php foreach ($book as $value):
+        var_dump($value);?>
+
         <tr align="center">
             <td>
                 <a href="form.php?book_id=<?= $value['book_id'] ?>"> <?= $value['title'] ?> </a>

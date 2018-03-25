@@ -1,4 +1,6 @@
 <?php
 include "admin/config.php";
-$array=Books::getAllBooks($Db);
+$book = new Books($Db);
+$book = $book->getAllBooks();
+
 require_once('admin/templates/user.phtml');
