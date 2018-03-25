@@ -37,6 +37,11 @@ class Genres
         return $result;
 
     }
+    public function getGenresList($db){
+        $query = 'SELECT * FROM genres';
+        $result = $db->getOneField($query);
+        return $result;
+    }
 
     public function getGenre($id)
     {

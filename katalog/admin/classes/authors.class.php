@@ -6,7 +6,7 @@ class Authors
     public $id;
     public $author;
 
-    public static function getAllAuthors($db)
+    public function getAllAuthors($db)
     {
         $result = $db->getOneField('SELECT * FROM books
             LEFT JOIN books_authors ON books_authors.book_id = books.book_id
@@ -14,6 +14,11 @@ class Authors
             LEFT JOIN authors ON authors.author_id = books_authors.author_id
             LEFT JOIN genres ON  genres.id = books_genres.genre_id');
 
+        return $result;
+    }
+    public function getAuthorsList($db){
+        $query = 'SELECT * FROM authors';
+        $result = $db->getOneField($query);
         return $result;
     }
 
