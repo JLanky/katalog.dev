@@ -16,7 +16,7 @@
 
                 <select name="author" multiple>
                     <?php foreach ($authors as $author): ?>
-                        <option value="<?= $author['author_id'] ?>"><?= $author['author'] ?></option>
+                        <option value="<?= $_POST["author"] ?>"><?= $author['author'] ?></option>
                     <?php endforeach; ?>
                 </select>
             </td>
@@ -27,7 +27,7 @@
             <td>
                 <select name="genre" multiple>
                     <?php foreach ($genres as $genre):?>
-                    <option value="<?= $genre['id'] ?>"><?= $genre['genre'] ?></option>
+                    <option value="<?= $_POST["genre"]?>"><?= $genre['genre'] ?></option>
                     <?php endforeach; ?>
                 </select>
             </td>
