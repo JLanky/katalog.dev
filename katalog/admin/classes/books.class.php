@@ -141,9 +141,12 @@ WHERE books.book_id =' . $bookId);
     {
         $book_id = (int)$id;
         if (!empty($id)) {
-            $del_books = $this->db->query('DELETE FROM `books` WHERE book_id="' . $book_id . '"');
-            $del_books_authors = $this->db->query('DELETE FROM `books_authors` WHERE book_id="' . $book_id . '"');
-            $del_books_genres = $this->db->query('DELETE FROM `books_genres` WHERE book_id="' . $book_id . '"');
+            $query = "DELETE FROM `books` WHERE book_id= . ' $book_id'";
+            $this->db->query($query);
+            $query = "DELETE FROM `books_authors` WHERE book_id= .'$book_id'";
+            $this->db->query($query);
+            $query = "DELETE FROM `books_genres` WHERE book_id= .'$book_id'";
+            $this->db->query($query);
             print "<center class=\"t2\">Данные удалены</center> ";
         } else {
             print'ID книги задан неверно';
