@@ -1,43 +1,47 @@
-<?php
-
-foreach ($authors as $author){
-  var_dump($author);
-}
-?>
 <html>
 <head>
-    <link rel="stylesheet" type="text/css" href="style.css" />
+    <link rel="stylesheet" type="text/css" href="style.css"/>
 </head>
 <body>
 <br><br>
-<form action="add_book.php"  method="post" name="frt" >
+<form action="add_book.php" method="post" name="frt">
     <table align="center">
-        <tr><td  class="t2"> введите название книги</td>
-            <td> <input type="text" size="30" maxlength="30" name="name" value="<?= $_POST["name"] ?>"></td></tr>
-        <tr><td class="t2">выберите автора(ов) книги</td>
+        <tr>
+            <td class="t2"> введите название книги</td>
+            <td><input type="text" size="30" maxlength="30" name="name" value="<?= $_POST["name"] ?>"></td>
+        </tr>
+        <tr>
+            <td class="t2">выберите автора(ов) книги</td>
             <td>
 
-<select name="author" multiple>
-    <?php foreach ($authors as $author):?>
-               <option value="<?=$author['author_id']?>"><?=$author['author']?></option>
-    <?php endforeach;?>
+                <select name="author" multiple>
+                    <?php foreach ($authors as $author): ?>
+                        <option value="<?= $author['author_id'] ?>"><?= $author['author'] ?></option>
+                    <?php endforeach; ?>
                 </select>
-            </td></tr>
+            </td>
+        </tr>
 
-        <tr><td class="t2">выберите жанр(ы) книги</td>
+        <tr>
+            <td class="t2">выберите жанр(ы) книги</td>
             <td>
-<select name="genre" multiple>
-                <?php foreach ($genres as $genre): ?>
-                  <option value="<?=$genre['id']?>"><?=$genre['genre']?></option>
-                <?php endforeach;?>
+                <select name="genre" multiple>
+                    <?php foreach ($genres as $genre):?>
+                    <option value="<?= $genre['id'] ?>"><?= $genre['genre'] ?></option>
+                    <?php endforeach; ?>
                 </select>
-
-                 </td></tr>
-        <tr><td class="t2">введите цену книги</td>
-            <td> <input type="text" size="20" maxlength="20" name="price" value="<?= $_POST["price"]; ?>"></td></tr>
-        <tr><td  class="t2"> введите описание книги</td>
-            <td><textarea wrap="off" name="description"  value="<?= $_POST["description"]; ?>"> </textarea>
-        <tr><td colspan="2" align="center"><input type="submit" name="input" value="Добавить книгу" ></td></tr>
+            </td>
+        </tr>
+        <tr>
+            <td class="t2">введите цену книги</td>
+            <td><input type="text" size="20" maxlength="20" name="price" value="<?= $_POST["price"]; ?>"></td>
+        </tr>
+        <tr>
+            <td class="t2"> введите описание книги</td>
+            <td><textarea wrap="off" name="description" value="<?= $_POST["description"]; ?>"> </textarea>
+        <tr>
+            <td colspan="2" align="center"><input type="submit" name="input" value="Добавить книгу"></td>
+        </tr>
     </table>
     <div style="text-align:center"><a href="index.php">Перейти на Главную</a></div>
 </body>

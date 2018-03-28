@@ -35,9 +35,10 @@ WHERE books.book_id =' . $bookId);
         return $genres;
     }
 
-    public function getAllBooks(){
+    public function getAllBooks()
+    {
         $books = $this->db->getAll('SELECT * FROM books');
-        foreach ($books as $key=>$book) {
+        foreach ($books as $key => $book) {
             $books[$key]['authors'] = $this->getBookAuthors($book['book_id']);
             $books[$key]['genres'] = $this->getBookGenres($book['book_id']);
         }
@@ -115,28 +116,36 @@ WHERE books.book_id =' . $bookId);
 
     public function addBook($data)
     {
-        if (!$this->validateBook($data) && !empty($data)) {
-            $title = trim($data["name"]);
-            $price = trim($data["price"]);
-            $description = trim($data["description"]);
-            $authors = ($data["author"]);
-            $genres = ($data["genre"]);
 
-            $sqlbooks = "INSERT INTO `books` (`title`,`description`,`price`) VALUES ('$title','$description','$price');";
-            $result3 = $this->db->query($sqlbooks);
-            $new_book_id = mysqli_insert_id();
+        $title = trim($data["name"]);
+        $price = trim($data["price"]);
+        $description = trim($data["description"]);
+        $authors = trim($data["author"]);
+        $genres = trim($data["genre"]);
 
-            for ($i = 0; $i < count($authors); $i++) {
-                $sql_new_book_author_id = "INSERT INTO `test`.`books_authors` (`author_id`,`book_id`) VALUES ('$authors[$i]','$new_book_id');";
-                $result4 = $this->db->query($sql_new_book_author_id);
-            }
-            for ($i = 0; $i < count($genres); $i++) {
-                $sql_new_book_genre_id = "INSERT INTO `test`.`books_genres` (`genre_id`,`book_id`) VALUES ('$genres[$i]','$new_book_id');";
-                $result5 = $this->db->query($sql_new_book_genre_id);
-            }
-            print "<center class=\"t2\">Данные добавлены</center> ";
-        }
+        $query = "INSERT INTO `books` (`title`,`description`,`price`) VALUES ('$title','$description','$price')";
+        $this->db->addField($query);
 
+        $queryGetID = "SELECT book_id FROM books WHERE title = '$title'
+        AND description = '$description'";
+        $newBookId = $this->db->getOneField($queryGetID);
+        $newBookId = (String) $newBookId[0]['book_id'];
+
+        $queryInAuthor = "INSERT INTO books_authors (`book_id`,`author_id`) VALUE ('$newBookId','$authors')";
+        $this->db->addField($queryInAuthor);
+        $queryInGenre = "INSERT INTO books_genres (`book_id`,`genre_id`) VALUE ('$newBookId','$genres')";
+        $this->db->addField($queryInGenre);
+
+        print "<center class=\"t2\">Данные добавлены</center> ";
+//            for ($i = 0; $i < count($authors); $i++) {
+//                $sql_new_book_author_id = "INSERT INTO `test`.`books_authors` (`author_id`,`book_id`) VALUES ('$authors[$i]','$new_book_id');";
+//                $result4 = $this->db->query($sql_new_book_author_id);
+//            }
+//            for ($i = 0; $i < count($genres); $i++) {
+//                $sql_new_book_genre_id = "INSERT INTO `test`.`books_genres` (`genre_id`,`book_id`) VALUES ('$genres[$i]','$new_book_id');";
+//                $result5 = $this->db->query($sql_new_book_genre_id);
+//            }
+//            print "<center class=\"t2\">Данные добавлены</center> ";
     }
 
     public function deleteBook($id)

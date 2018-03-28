@@ -91,8 +91,6 @@ class Db
         $this->pdo->query($query);
         $this->closeConnection();
     }
-
-
 }
 
 

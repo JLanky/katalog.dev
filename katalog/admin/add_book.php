@@ -1,7 +1,7 @@
 <?php
 include "config.php";
 if ($_POST) {
-    var_dump($_POST);
+
     $book = new Books($Db);
     $book->addBook($_POST);
 }
