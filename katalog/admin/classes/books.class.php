@@ -120,7 +120,8 @@ WHERE books.book_id =' . $bookId);
         $description = trim($data["description"]);
         $authors = trim($data["author"]);
         $genres = trim($data["genre"]);
-
+var_dump($data["author"]);
+var_dump($data["genre"]);die();
         $query = "INSERT INTO `books` (`title`,`description`,`price`) VALUES ('$title','$description','$price')";
         $this->db->addField($query);
 
@@ -141,12 +142,12 @@ WHERE books.book_id =' . $bookId);
     {
         $book_id = (int)$id;
         if (!empty($id)) {
-            $query = "DELETE FROM `books` WHERE book_id= . ' $book_id'";
-            $this->db->query($query);
-            $query = "DELETE FROM `books_authors` WHERE book_id= .'$book_id'";
-            $this->db->query($query);
-            $query = "DELETE FROM `books_genres` WHERE book_id= .'$book_id'";
-            $this->db->query($query);
+            $query = "DELETE FROM `books` WHERE book_id='$book_id'";
+            $this->db->delField($query);
+            $query = "DELETE FROM `books_authors` WHERE book_id='$book_id'";
+            $this->db->delField($query);
+            $query = "DELETE FROM `books_genres` WHERE book_id='$book_id'";
+            $this->db->delField($query);
             print "<center class=\"t2\">Данные удалены</center> ";
         } else {
             print'ID книги задан неверно';

@@ -87,7 +87,11 @@ class Db
     }
 
     public function addField($query){
-        var_dump($query);
+        $this->connect();
+        $this->pdo->query($query);
+        $this->closeConnection();
+    }
+    public function delField($query){
         $this->connect();
         $this->pdo->query($query);
         $this->closeConnection();
