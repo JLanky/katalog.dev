@@ -120,8 +120,7 @@ WHERE books.book_id =' . $bookId);
         $description = trim($data["description"]);
         $authors = trim($data["author"]);
         $genres = trim($data["genre"]);
-var_dump($data["author"]);
-var_dump($data["genre"]);die();
+
         $query = "INSERT INTO `books` (`title`,`description`,`price`) VALUES ('$title','$description','$price')";
         $this->db->addField($query);
 
