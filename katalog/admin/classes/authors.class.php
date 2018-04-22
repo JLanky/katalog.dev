@@ -62,7 +62,7 @@ class Authors
 
             $query = "INSERT INTO `test`.`authors` (`author`) VALUES ('$author');";
 
-            $this->db->addField($query);
+            $this->db->executeQuery($query);
 
             print "<center class=\"t2\">Автор добавлен успешно</center> ";
         } else {

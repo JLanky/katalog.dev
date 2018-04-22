@@ -3,7 +3,7 @@ include '../classes/db.class.php';
 ?>
 <html>
 <head>
-    <link rel="stylesheet" type="text/css" href="style.css"/>
+    <link rel="stylesheet" type="text/css" href="/style.css"/>
 </head>
 <body>
 <br><br>
@@ -17,33 +17,41 @@ include '../classes/db.class.php';
         <td>Стоимость</td>
 
     </tr>
-    <?php
-    $bookObject = new Books(new Db());
-    $books = $bookObject->getAllBooks();
-    $authors = array();
-    $genres = array();
-    foreach ($books as $book) :?>
+	<?php
+	$bookObject = new Books( new Db() );
+	$books      = $bookObject->getAllBooks();
+
+	foreach ( $books as $book ) :
+		$authors = array();
+		$genres = array();
+		?>
         <tr align="center">
-            <td><a href="form.php?book_id=<?= $book['book_id']?>"> <?= $book['title'] ?> </a></td>
+            <td><a href="form.php?book_id=<?= $book['book_id'] ?>"> <?= $book['title'] ?> </a></td>
             <td>
-                <?php foreach ($book['authors'] as $author) {
-                    $authors[] = '<a href="authors_books.php?author_id=' . $author['author_id'] . '">' . $author['author'] . '</a>';
-                } ?>
-                <?= implode(', ', $authors) ?>
+				<?php foreach ( $book['authors'] as $author ) {
+					$authors[] = '<a href="authors_books.php?author_id=' . $author['author_id'] . '">' . $author['author'] . '</a>';
+				} ?>
+				<?= implode( ', ', $authors ) ?>
             </td>
             <td>
-                <?php foreach ($book['genres'] as $genre) {
-                    $genres[] = '<a href="genres_books.php?genre_id=' . $genre['id'] . '">' .
-                        $genre['genre'] . '</a>';
-                }
-                ?>
-                <?= implode(', ',$genres) ?>
+				<?php foreach ( $book['genres'] as $genre ) {
+					$genres[] = '<a href="genres_books.php?genre_id=' . $genre['genre_id'] . '">' .
+					            $genre['genre'] . '</a>';
+				}
+				?>
+				<?= implode( ', ', $genres ) ?>
             </td>
             <td><?= $book['price']; ?></td>
 
             <td><a href="form.php?book_id=<?= $book['book_id'] ?>">Заказать</td>
         </tr>
-    <?php endforeach; ?>
+	<?php endforeach; ?>
 </table>
+<div class="loader">
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+</div>
 </body>
 </html>

@@ -1,21 +1,42 @@
 <?php
 include "config.php";
-if (isset($_REQUEST['book_id'])) {
-    $book_id = (int)$_REQUEST['book_id'];
-    $book = new Books($Db);
 
-    $authors = new Authors($Db);
-    $genres = new Genres($Db);
-    $authors->getAuthorsList($Db);
-    $genres->getGenresList($Db);
+$bookObject = new Books( $Db );
 
-    if (isset($_POST['saveBookData'])) {
-        $book->updateBook($_POST);
-    }
-} else {
-    header('Location:index.php');
+if ( !empty( $_REQUEST['book_id'] ) && empty($_POST['saveBookData'])) {
+	$book_id = (int) trim( $_REQUEST['book_id'] );
+
+	$book            = $bookObject->getBook( $book_id );
+	$book['authors'] = $bookObject->getBookAuthors( $book_id );
+	$book['genres'] = $bookObject->getBookGenres( $book_id );
+
+	$authorObject = new Authors( $Db );
+	$genreObject  = new Genres( $Db );
+
+	$authors = $authorObject->getAuthorsList( $Db );
+	$genres  = $genreObject->getGenresList( $Db );
 }
-require_once('templates/update_books.phtml');
+elseif (!empty( $_REQUEST['book_id'] ) && !empty($_POST['saveBookData'])){
+
+        $bookObject->updateBook( $_POST );
+    $book_id = (int) trim( $_REQUEST['book_id'] );
+
+    $bookObject = new Books( $Db );
+
+    $book            = $bookObject->getBook( $book_id );
+    $book['authors'] = $bookObject->getBookAuthors( $book_id );
+    $book['genres'] = $bookObject->getBookGenres( $book_id );
+
+    $authorObject = new Authors( $Db );
+    $genreObject  = new Genres( $Db );
+
+    $authors = $authorObject->getAuthorsList( $Db );
+    $genres  = $genreObject->getGenresList( $Db );
+}
+else {
+	header( 'Location:index.php' );
+}
+require_once( 'templates/update_books.phtml' );
 
 
 

@@ -1,11 +1,9 @@
-
 <html>
 <head>
     <link rel="stylesheet" type="text/css" href="style.css"/>
 </head>
 <body>
-<br><br>
-<form action="add_book.php" method="post" name="frt">
+<form action="<?= $_SERVER['PHP_SELF'] ?>" method="POST">
     <table align="center">
         <tr>
             <td class="t2"> введите название книги</td>
@@ -16,35 +14,36 @@
             <td>
 
                 <select name="author[]" multiple>
-                    <?php foreach ($authors as $author): ?>
-                        <option value="<?= $author ?>"><?= $author['author'] ?></option>
-                    <?php endforeach; ?>
+					<?php foreach ( $authors as $author ): ?>
+                        <option value="<?= $author['author_id'] ?>"><?= $author['author'] ?></option>
+					<?php endforeach; ?>
                 </select>
             </td>
         </tr>
-
         <tr>
             <td class="t2">выберите жанр(ы) книги</td>
             <td>
                 <select name="genre[]" multiple>
-                    <?php foreach ($genres as $genre):?>
-                    <option value="<?= $genre ?>"><?= $genre['genre'] ?></option>
-                    <?php endforeach; ?>
+					<?php foreach ( $genres as $genre ): ?>
+                        <option value="<?= $genre['id'] ?>"><?= $genre['genre'] ?></option>
+					<?php endforeach; ?>
                 </select>
             </td>
         </tr>
         <tr>
-            <td class="t2">введите цену книги</td>
+            <td class="t2">Введите цену книги</td>
             <td><input type="text" size="20" maxlength="20" name="price" value="<?= $_POST["price"]; ?>"></td>
         </tr>
         <tr>
-            <td class="t2"> введите описание книги</td>
-            <td><textarea wrap="off" name="description" value="<?= $_POST["description"]; ?>"> </textarea>
+            <td class="t2">Введите описание книги</td>
+            <td>
+                <textarea wrap="off" name="description" value="<?= $_POST["description"]; ?>"> </textarea>
+            </td>
         <tr>
             <td colspan="2" align="center"><input type="submit" name="input" value="Добавить книгу"></td>
         </tr>
     </table>
     <div style="text-align:center"><a href="index.php">Перейти на Главную</a></div>
+</form>
 </body>
 </html>
-

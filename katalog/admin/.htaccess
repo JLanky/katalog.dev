@@ -1,4 +1,0 @@
-AuthType Basic
-AuthName "Admina!"
-AuthUserFile /var/www/catalog.test/.pswd
-Require valid-user

@@ -65,13 +65,12 @@ class Genres
 
     public function addGenre($data)
     {
+
         if (!empty($data) && !empty($data['genre'])) {
 
             $genre = $data['genre'];
-
-            $query = "INSERT INTO `test`.`genres` (`genre`) VALUES ('$genre');";
-
-            $this->db->addField($query);
+            $query = "INSERT INTO `genres` (`genre`) VALUES ('$genre');";
+            $this->db->executeQuery($query);
 
             print "<center class=\"t2\">Данные успешно добавлены</center> ";
         } else {

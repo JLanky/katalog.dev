@@ -1,3 +1,6 @@
+<?php
+//var_dump($book);
+?>
 <html>
 <head>
     <link rel="stylesheet" type="text/css" href="style.css"/>
@@ -5,55 +8,48 @@
 <body>
 <br><br>
 <form action="update_books.php" method="post" name="frt">
-    <input type="hidden" name="book_id" value="<?php echo $book_id; ?>"/>
+    <input type="hidden" name="book_id" value="<?= $book['book_id']; ?>"/>
     <table align="center">
         <tr>
             <td class="t2">Название:</td>
-            <td><input type="text" size="30" maxlength="30" name="name"
-                       value="<?php echo isset($_POST["name"]) ? $_POST["name"] : $book->name; ?>"></td>
+            <td><input type="text" size="30" maxlength="30" name="title"
+                       value="<?= $book['title']; ?>"></td>
         </tr>
         <tr>
             <td class="t2">Автор:</td>
-            <td><?php
-
-
-                $a = '<select name="author[]" multiple="multiple">';
-
-                for ($g = 0, $G = count($authors_array); $g < $G; $g++) {
-                    $a .= '<option value="' . $authors_array[$g]->id . '" ' . ($book->isCurrentBookAuthor($authors_array[$g]->id) ? 'selected="selected"' : '') . '>' . $authors_array[$g]->author . '</option>';
-                }
-                $a .= '</select>';
-
-                echo $a;
-                ?>
+            <td>
+                <select name="author[]" multiple="multiple">
+					<?php foreach ( $authors as $author ):
+						$selected = array_search( $author['author_id'], array_column( $book['authors'], 'author_id' ) );
+						?>
+                        <option value="<?= $author['author_id'] ?>" <?= ( $selected !== false ) ? 'selected' : '' ?>><?= $author['author'] ?></option>
+					<?php endforeach; ?>
+                </select>
             </td>
         </tr>
         <tr>
             <td class="t2">Жанр:</td>
-            <td><?php
-
-
-                $b = '<select name="genre[]" multiple="multiple">';
-
-                for ($g = 0, $G = count($genres_array); $g < $G; $g++) {
-                    $b .= '<option value="' . $genres_array[$g]->id . '" ' . ($book->isCurrentBookGenre($genres_array[$g]->id) ? 'selected="selected"' : '') . '>' . $genres_array[$g]->genre . '</option>';
-                }
-                $b .= '</select>';
-                echo $b;
-                ?>
+            <td>
+                <select name="genre[]" multiple="multiple">
+					<?php foreach ( $genres as $genre ):
+						$selected = array_search( $genre['id'], array_column( $book['genres'], 'genre_id' ) );
+						?>
+                        <option value="<?= $genre['id'] ?>" <?= ( $selected !== false ) ? 'selected' : '' ?>><?= $genre['genre'] ?></option>';
+					<?php endforeach; ?>
+                </select>
             </td>
         </tr>
         <tr>
             <td class="t2">Цена:</td>
             <td><input type="text" size="20" maxlength="20" name="price"
-                       value="<?php echo isset($_POST["price"]) ? $_POST["price"] : $book->price; ?>"></td>
+                       value="<?= $book['price']; ?>"></td>
         </tr>
         <tr>
             <td class="t2">Описание:</td>
-            <td><textarea name="description"><?php echo $book->description; ?></textarea>
+            <td><textarea name="description"><?= $book['description']; ?></textarea>
         </tr>
         <tr>
-            <td colspan="2" align="center"><input type="submit" ; name="saveBookData" ; value="Сохранить изменеиня">
+            <td colspan="2" align="center"><input type="submit" name="saveBookData" value="Сохранить изменеиня">
             </td>
         </tr>
     </table>
