@@ -6,4 +6,9 @@ if (!empty($_GET['book_id'])) {
     $book->deleteBook($book_id);
 }
 
+$authorObject = new Authors( $Db );
+$genreObject  = new Genres( $Db );
+$authorsList = $authorObject->getAuthorsList( $Db );
+$genresList  = $genreObject->getGenresList( $Db );
+
 require_once('templates/index.phtml');

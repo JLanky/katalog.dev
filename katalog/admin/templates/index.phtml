@@ -1,11 +1,7 @@
 <?php
 //include '../classes/db.class.php';
 ?>
-<html>
-<head>
-    <link rel="stylesheet" type="text/css" href="style.css"/>
-</head>
-<body>
+<?php include "head.php" ?>
 <br><br>
 <div style="text-align:center"><a href="add_author.php">Добавить автора</a></div>
 <div style="text-align:center"><a href="add_genre.php">Добавить жанр</a></div>
@@ -48,11 +44,52 @@
             </td>
             <td><?= $book['price']; ?></td>
 
-            <td><a href="index.php?book_id=<?= $book['book_id'] ?>">Удалить</td>
-            <td><a href="update_books.php?book_id=<?= $book['book_id'] ?>">Редактировать</td>
+            <td class="del" clickable data-book="<?= $book['book_id'] ?>"><!-- <a href="index.php?book_id=<?= $book['book_id'] ?>"> -->Удалить</td>
+            <td class="edit" clickable data-book="<?= $book['book_id'] ?>"><!-- <a href="update_books.php?book_id=<?= $book['book_id'] ?>"> -->Редактировать</td>
 
         </tr>
 	<?php endforeach; ?>
 </table>
-</body>
-</html>
+<div id="edit" style="display: none;">
+	<p><label>Название:</label><input type="text" name="title" value="" /></p>
+	<p>
+		<label>Автор:</label>
+		<select name="author[]" multiple="multiple">
+			<?php foreach ( $authorsList as $author ): ?>
+                <option value="<?= $author['author_id'] ?>"><?= $author['author'] ?></option>
+			<?php endforeach; ?>
+        </select>
+	</p>
+	<p>
+		<label>Жанр:</label>
+		<select name="genre[]" multiple="multiple">
+			<?php foreach ( $genresList	 as $genre ): ?>
+                <option value="<?= $genre['id'] ?>"><?= $genre['genre'] ?></option>';
+			<?php endforeach; ?>
+        </select>
+	</p>
+	<p><label>Цена:</label><input type="text" name="price" value="" /></p>
+	<p>
+		<label>Описание:</label>
+		<td><textarea name="description"></textarea>
+	</p>
+</div>
+<script>
+	$('[clickable]').css('cursor','pointer');
+	$('.del').click(function(){
+		$.ajax({
+            type    : "GET",
+            cache   : false,
+            context	: this,
+            url     : 'ajax.php?book_id=' + $(this).attr('data-book'),
+            success: function(data) {
+                res_data = JSON.parse(data);
+                if (res_data.error == 0) {
+                	$(this).parent('tr').remove();
+                }
+                alert(res_data.msg);
+            }
+        });
+	});
+</script>
+<?php include "foot.php" ?>

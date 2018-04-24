@@ -32,11 +32,17 @@ elseif (!empty( $_REQUEST['book_id'] ) && !empty($_POST['saveBookData'])){
 
     $authors = $authorObject->getAuthorsList( $Db );
     $genres  = $genreObject->getGenresList( $Db );
-}
-else {
+} elseif (empty( $_REQUEST['book_id'] ) && empty($_POST['saveBookData'])) {
+    $authorObject = new Authors( $Db );
+    $genreObject  = new Genres( $Db );
+    $authors = $authorObject->getAuthorsList( $Db );
+    $genres  = $genreObject->getGenresList( $Db );
+
+    echo json_encode(array('a' => $authors, 'g' => $genres));
+} else {
 	header( 'Location:index.php' );
 }
-require_once( 'templates/update_books.phtml' );
+//require_once( 'templates/update_books.phtml' );
 
 
 

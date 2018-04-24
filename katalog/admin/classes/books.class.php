@@ -170,10 +170,12 @@ class Books {
 			$this->db->executeQuery( $query, 'delete' );
 			$query = "DELETE FROM `books_genres` WHERE book_id='$book_id'";
 			$this->db->executeQuery( $query, 'delete' );
-			print "<center class=\"t2\">Данные удалены</center> ";
+			$res = array('error' => 0,'msg' => "Данные удалены.");
 		} else {
-			print'ID книги задан неверно';
+			$res = array('error' => 1,'msg' => "ID книги задан неверно");;
 		}
+
+		return json_encode($res, true);
 	}
 
 	public function updateBook( $data ) {

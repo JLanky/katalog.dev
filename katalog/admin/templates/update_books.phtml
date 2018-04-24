@@ -1,11 +1,7 @@
 <?php
 //var_dump($book);
 ?>
-<html>
-<head>
-    <link rel="stylesheet" type="text/css" href="style.css"/>
-</head>
-<body>
+<?php include "head.php" ?>
 <br><br>
 <form action="update_books.php" method="post" name="frt">
     <input type="hidden" name="book_id" value="<?= $book['book_id']; ?>"/>
@@ -55,5 +51,4 @@
     </table>
 </form>
 <div style="text-align:center"><a href="index.php">Перейти на Главную</a></div>
-</body>
-</html>
+<?php include "foot.php" ?>

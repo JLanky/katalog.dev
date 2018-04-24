@@ -1,9 +1,5 @@
 
-<html>
-<head>
-    <link rel="stylesheet" type="text/css" href="style.css"/>
-</head>
-<body>
+<?php include "head.php" ?>
 
 Название: <b><?= htmlspecialchars($book['title']) ?></b><br/>
 Цена: <b><?= htmlspecialchars($book['price']) ?></b><br/>
@@ -33,5 +29,4 @@
 </form>
 <br><br>
 <div style="text-align:center"><a href="index.php">Перейти на Главную</a></div>
-</body>
-</html>
+<?php include "foot.php" ?>
