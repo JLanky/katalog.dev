@@ -1,0 +1,4 @@
+AuthType Basic
+AuthName "Please Vagin"
+AuthUserFile /var/www/catalog.test/.pswd
+Require valid-user
