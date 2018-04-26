@@ -6,10 +6,10 @@
         <td>Действия</td>
     </tr>
     <?php
-for ($i = 0; $i < count($authors); $i++) {
+foreach ($authors as $author) {
     print "<tr align=\"center\">";
-    print '<td><a href="authors_books.php?author_id=' . $authors[$i]->id . '">' . $authors[$i]->author . '</a></td>';
-    print '<td><a href="delete_author.php?author_id=' . $authors[$i]->id . '">' . 'Удалить' . '</tr></td>';
+    print '<td><a href="/authors_books.php?author_id=' . $author['author_id'] . '">' . $author['author'] . '</a></td>';
+    print '<td><a href="delete_author.php?author_id=' . $author['author_id'] . '">' . 'Удалить' . '</tr></td>';
     }
     ?>
 </table>

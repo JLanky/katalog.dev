@@ -9,11 +9,11 @@ class Genres
     public static function getAllGenres($Db, $book_id = 0)
     {
         if ($book_id != 0) {
-            $id = $Db->getOneField('genre', 'SELECT * FROM books_genres WHERE book_id=' . $book_id);
+            $id = $Db->executeQuery( 'SELECT * FROM books_genres WHERE book_id=' . $book_id);
         } else {
-            $id = $Db->getOneField('genre', 'SELECT * FROM genres');
+            $id = $Db->executeQuery( 'SELECT * FROM genres');
         }
-        // var_dump($id);
+
         return $id;
     }
 
@@ -54,9 +54,10 @@ class Genres
     public function deleteGenre($id)
     {
         $genre_id = (int)$id;
+
         if (!empty($id)) {
-            $del_genre = $this->db->query('DELETE FROM `genres` WHERE genre_id="' . $genre_id . '"');
-            $del_genres_books = $this->db->query('DELETE FROM `books_genres` WHERE genre_id="' . $genre_id . '"');
+            $del_genre = $this->db->executeQuery('DELETE FROM `genres` WHERE id="' . $genre_id . '"');
+            $del_genres_books = $this->db->executeQuery('DELETE FROM `books_genres` WHERE genre_id="' . $genre_id . '"');
             print "<center class=\"t2\">Данные успешно удалены</center> ";
         } else {
             print'ID жанра задан неверно';

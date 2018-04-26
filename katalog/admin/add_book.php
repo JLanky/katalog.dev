@@ -9,5 +9,4 @@ $genres = new Genres($Db);
 
 $authors = $authors->getAuthorsList($Db);
 $genres = $genres->getGenresList($Db);
-
 require_once('templates/add_book.phtml');

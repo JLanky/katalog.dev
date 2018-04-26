@@ -20,10 +20,15 @@ class Books {
 	 *
 	 * @return mixed
 	 */
-	public function getBook( $id ) {
-		$book = $this->db->getOne( 'SELECT * FROM books  WHERE books.book_id = ?', $id );
+	public function getBook( $id, $ajax = false ) {
+		$book = $this->db->getOne( 'SELECT * FROM books
+      JOIN books_authors ON books.book_id = books_authors.book_id
+      JOIN authors ON books_authors.author_id = authors.author_id
+      JOIN books_genres ON books.book_id = books_genres.book_id
+      JOIN genres ON books_genres.genre_id = genres.id
+      WHERE books.book_id = ? LIMIT 1 ', $id );
 
-		return $book;
+		return (!$ajax) ? $book : json_encode($book, true);
 	}
 
 	/**
@@ -38,7 +43,6 @@ class Books {
 		LEFT JOIN books_authors ON books_authors.author_id = authors.author_id
 		LEFT JOIN books ON books.book_id = books_authors.book_id
 		WHERE books.book_id =' . $bookId );
-
 		return $authors;
 	}
 
@@ -53,6 +57,7 @@ class Books {
 
 	public function getAllBooks() {
 		$books = $this->db->getAll( 'SELECT * FROM books' );
+
 		foreach ( $books as $key => $book ) {
 			$books[ $key ]['authors'] = $this->getBookAuthors( $book['book_id'] );
 			$books[ $key ]['genres']  = $this->getBookGenres( $book['book_id'] );
@@ -140,12 +145,12 @@ class Books {
 
 		$resultQuery = $this->db->executeQuery( $query, 'insert' );
 		if ( $resultQuery['result'] ) {
-			$bookID = $resultQuery['id'];
+
+			$bookID = $resultQuery;
 		} else {
 			echo 'Something wrong';
 			die();
 		}
-
 
 		foreach ( $authors as $author ) {
 			$queryInAuthor = "INSERT INTO books_authors (`book_id`,`author_id`) VALUE ('$bookID','$author')";

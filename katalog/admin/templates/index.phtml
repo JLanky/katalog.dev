@@ -17,79 +17,112 @@
         <td>Стоимость</td>
         <td colspan="2">Действия</td>
     </tr>
-	<?php
-	$bookObject = new Books( new Db() );
-	$books      = $bookObject->getAllBooks();
+    <?php
+    $bookObject = new Books(new Db());
+    $books = $bookObject->getAllBooks();
 
-	foreach ( $books as $book ) :
-		$authors = array();
-		$genres = array();
-		?>
+    foreach ($books as $book) :
+        $authors = array();
+        $genres = array();
+        ?>
 
         <tr align="center">
             <td> <?= $book['title'] ?></td>
             <td>
-				<?php foreach ( $book['authors'] as $author ) {
-					$authors[] = '<a href="../authors_books.php?author_id=' . $author['author_id'] . '">' . $author['author'] . '</a>';
-				} ?>
-				<?= implode( ', ', $authors ) ?>
+                <?php foreach ($book['authors'] as $author) {
+                    $authors[] = '<a href="../authors_books.php?author_id=' . $author['author_id'] . '">' . $author['author'] . '</a>';
+                } ?>
+                <?= implode(', ', $authors) ?>
             </td>
             <td>
-				<?php foreach ( $book['genres'] as $genre ) {
-					$genres[] = '<a href="../genres_books.php?genre_id=' . $genre['genre_id'] . '">' .
-					            $genre['genre'] . '</a>';
-				}
-				?>
-				<?= implode( ', ', $genres ) ?>
+                <?php foreach ($book['genres'] as $genre) {
+                    $genres[] = '<a href="../genres_books.php?genre_id=' . $genre['genre_id'] . '">' .
+                        $genre['genre'] . '</a>';
+                }
+                ?>
+                <?= implode(', ', $genres) ?>
             </td>
             <td><?= $book['price']; ?></td>
 
-            <td class="del" clickable data-book="<?= $book['book_id'] ?>"><!-- <a href="index.php?book_id=<?= $book['book_id'] ?>"> -->Удалить</td>
-            <td class="edit" clickable data-book="<?= $book['book_id'] ?>"><!-- <a href="update_books.php?book_id=<?= $book['book_id'] ?>"> -->Редактировать</td>
+            <td class="del" clickable data-book="<?= $book['book_id'] ?>">
+                <!-- <a href="index.php?book_id=<?= $book['book_id'] ?>"> -->Удалить
+            </td>
+            <td class="edit" clickable data-book="<?= $book['book_id'] ?>">
+                <!-- <a href="update_books.php?book_id=<?= $book['book_id'] ?>"> -->Редактировать
+            </td>
 
         </tr>
-	<?php endforeach; ?>
+    <?php endforeach; ?>
 </table>
 <div id="edit" style="display: none;">
-	<p><label>Название:</label><input type="text" name="title" value="" /></p>
-	<p>
-		<label>Автор:</label>
-		<select name="author[]" multiple="multiple">
-			<?php foreach ( $authorsList as $author ): ?>
-                <option value="<?= $author['author_id'] ?>"><?= $author['author'] ?></option>
-			<?php endforeach; ?>
+    <p><label>Название:</label><input id="title" type="text" name="title" value=""/></p>
+    <p>
+        <label>Автор:</label>
+        <select id="author" name="author[]" multiple="multiple">
+            <?php foreach ($authorsList as $author): ?>
+                <option  value="<?= $author['author_id'] ?>"><?= $author['author'] ?></option>
+            <?php endforeach; ?>
         </select>
-	</p>
-	<p>
-		<label>Жанр:</label>
-		<select name="genre[]" multiple="multiple">
-			<?php foreach ( $genresList	 as $genre ): ?>
-                <option value="<?= $genre['id'] ?>"><?= $genre['genre'] ?></option>';
-			<?php endforeach; ?>
+    </p>
+    <p>
+        <label>Жанр:</label>
+        <select id="genre" name="genre[]" multiple="multiple">
+            <?php foreach ($genresList as $genre): ?>
+                <option  value="<?= $genre['id'] ?>"><?= $genre['genre'] ?></option>';
+            <?php endforeach; ?>
         </select>
-	</p>
-	<p><label>Цена:</label><input type="text" name="price" value="" /></p>
-	<p>
-		<label>Описание:</label>
-		<td><textarea name="description"></textarea>
-	</p>
+    </p>
+    <p><label>Цена:</label>
+        <input type="text" id="price" name="price" value=""/>
+    </p>
+    <p>
+        <label>Описание:</label>
+        <textarea name="description" id="description"></textarea>
+    </p>
+    <p>
+        <input type="submit" name="submit"/>
+    </p>
 </div>
 <script>
-	$('[clickable]').css('cursor','pointer');
-	$('.del').click(function(){
-		$.ajax({
-            type    : "GET",
-            cache   : false,
-            context	: this,
-            url     : 'ajax.php?book_id=' + $(this).attr('data-book'),
-            success: function(data) {
+    $('[clickable]').css('cursor', 'pointer');
+    $('.del').click(function () {
+        $.ajax({
+            type: "GET",
+            cache: false,
+            context: this,
+            url: 'ajax.php?book_id=' + $(this).attr('data-book') + '&delete=1',
+            success: function (data) {
                 res_data = JSON.parse(data);
                 if (res_data.error == 0) {
-                	$(this).parent('tr').remove();
+                    $(this).parent('tr').remove();
                 }
                 alert(res_data.msg);
             }
         });
-	});
+    });
+
+    $('.edit').click(function () {
+        $.ajax({
+            type: "GET",
+            caсhe: false,
+            url: 'ajax.php?book_id=' + $(this).attr('data-book') + '&edit=1',
+            success: function (data) {
+                res_data = JSON.parse(data);
+                console.log(data);
+                $('#title').val(res_data.title);
+                $('#description').val(res_data.description);
+                $('#price').val(res_data.price);
+
+                $.each(res_data.authors,function(index,item){
+                    $("#author option[value='" + item.author_id + "']").prop("selected", true);
+                }	);
+                $.each(res_data.genres,function(index,item_genre){
+                    $("#genre option[value='" + item_genre.genre_id + "']").prop("selected", true);
+                }	);
+            }
+        });
+        $("#edit").dialog();
+    });
+
 </script>
 <?php include "foot.php" ?>

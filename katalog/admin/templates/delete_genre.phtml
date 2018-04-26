@@ -6,10 +6,10 @@
         <td>Действия</td>
     </tr>
     <?php
-for ($i = 0; $i < count($genres); $i++) {
+foreach ($genres as $genre){
     print "<tr align=\"center\">";
-    print '<td><a href="genres_books.php?genre_id=' . $genres[$i]->id . '">' . $genres[$i]->genre . '</a></td>';
-    print '<td><a href="delete_genre.php?genre_id=' . $genres[$i]->id . '">' . 'Удалить' . '</tr></td>';
+    print '<td><a href="genres_books.php?genre_id=' . $genre['id'] . '">' . $genre['genre'] . '</a></td>';
+    print '<td><a href="delete_genre.php?genre_id=' . $genre['id'] . '">' . 'Удалить' . '</tr></td>';
     }
     ?>
 </table>

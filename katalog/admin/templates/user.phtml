@@ -2,15 +2,16 @@
 include '../classes/db.class.php';
 ?>
 <?php include "head.php" ?>
-<br><br>
 
-<center><h2>Книжный каталог</h2></center>
+<div class="main-user">
+<h2>Книжный каталог</h2>
 <table width=50% height=20% align="center" border=1>
-    <tr align="center">
-        <td>Название книги</td>
-        <td>Автор</td>
-        <td>Жанр</td>
-        <td>Стоимость</td>
+    <tr align="center" class="user-book-info">
+        <th>Название книги</th>
+        <th>Автор</th>
+        <th>Жанр</th>
+        <th>Стоимость</th>
+        <th style="display: none"></th>
 
     </tr>
 	<?php
@@ -21,7 +22,7 @@ include '../classes/db.class.php';
 		$authors = array();
 		$genres = array();
 		?>
-        <tr align="center">
+        <tr align="center" class="user-books">
             <td><a href="form.php?book_id=<?= $book['book_id'] ?>"> <?= $book['title'] ?> </a></td>
             <td>
 				<?php foreach ( $book['authors'] as $author ) {
@@ -43,10 +44,5 @@ include '../classes/db.class.php';
         </tr>
 	<?php endforeach; ?>
 </table>
-<div class="loader">
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
 </div>
 <?php include "foot.php" ?>

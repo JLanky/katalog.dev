@@ -8,11 +8,7 @@ class Authors
 
     public function getAllAuthors($db)
     {
-        $result = $db->getOneField('SELECT * FROM books
-            LEFT JOIN books_authors ON books_authors.book_id = books.book_id
-            LEFT JOIN books_genres ON  books_genres.book_id = books.book_id
-            LEFT JOIN authors ON authors.author_id = books_authors.author_id
-            LEFT JOIN genres ON  genres.id = books_genres.genre_id');
+        $result = $db->getOneField('SELECT * FROM authors');
 
         return $result;
     }
@@ -72,12 +68,10 @@ class Authors
             print "<center class=\"t\">$error</center> ";
         }
     }
-    public function deleteAuthor($data){
-        if (!empty($data) && !empty($data['author'])) {
-            $author_id = $data['author_id'];
+    public function deleteAuthor($author_id){
+        if (!empty($author_id)) {
             $query = "DELETE FROM `authors` WHERE author_id=". $author_id;
-
-            $this->db->addField($query);
+            $this->db->executeQuery($query);
 
             print "<center class=\"t2\">Автор удален успешно.</center> ";
         } else {

@@ -82,16 +82,18 @@ class Db {
 	public function executeQuery( $query, $type = false ) {
 		$this->connect();
 		$data           = array( 'result' => false );
-		//var_dump($query);
+
 		$data['result'] = $this->pdo->query( $query );
 
 		if ( $type === 'insert' ) {
-			$data['id'] = $this->pdo->lastInsertId();
-		}
+            $this->result = $this->pdo->lastInsertId();
+		}else{
+            $this->result = $data['result']->fetchAll();
+        }
 
 		$this->closeConnection();
 
-		return $data;
+		return $this->result;
 	}
 }
 
