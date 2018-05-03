@@ -1,7 +1,8 @@
 <?php
 include "admin/config.php";
 if ($_POST) {
-    $error = "";
+    $error = '';
+    $message = '';
     $initials = trim($_POST["initials"]);
     $address = trim($_POST["address"]);
     $quantity = trim($_POST["quantity"]);
@@ -26,12 +27,12 @@ if ($_POST) {
         $error .= "Вы не заполнили поле Количество экземпляров";
     }
     if ($error != "") {
-        print "<center class=\"t\">$error</center> ";
+        $error = "<center class=\"t\">$error</center> ";
     } else {
         $message = 'Пользователь <b>' . $initials . '</b>,проживающий по адресу:<b>' . $address . '</b>
     хочет купить у вас <b>' . $quantity . '</b> экземпляров книги ' . $book['title'];
         if (mail("admin@catalog.com", "Новый заказ книги", $message)) {
-            print '<h2><center>Данные успешно отправлены</center></h2>';
+            $message = '<h2><center>Данные успешно отправлены</center></h2>';
         }
     }
 }
@@ -52,10 +53,6 @@ if (!empty($_REQUEST['book_id'])) {
     foreach ($genres as $genre) {
         $genresHTML[] = '<a href="genres_books.php?genre_id=' . $genre['genre_id'] . '">' . $genre['genre'] . '</a> ';
     }
-
-
-} else {
-    print 'Произошла ошибка';
 }
 require_once('admin/templates/form.phtml');
 

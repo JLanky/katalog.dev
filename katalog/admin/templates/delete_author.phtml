@@ -6,12 +6,12 @@
         <td>Действия</td>
     </tr>
     <?php
-foreach ($authors as $author) {
-    print "<tr align=\"center\">";
-    print '<td><a href="/authors_books.php?author_id=' . $author['author_id'] . '">' . $author['author'] . '</a></td>';
-    print '<td><a href="delete_author.php?author_id=' . $author['author_id'] . '">' . 'Удалить' . '</tr></td>';
-    }
-    ?>
+    foreach ($authors as $author):?>
+        <tr align="center">
+        <td><a href="/authors_books.php?author_id=<?= $author['author_id'] ?>"><?= $author['author'] ?></a></td>
+        <td><a href="delete_author.php?author_id=<?= $author['author_id'] ?>">Удалить</a></td>
+        </tr>
+    <?php endforeach; ?>
 </table>
 <div style="text-align:center"><a href="index.php">Перейти на Главную</a></div>
 <?php include "foot.php" ?>

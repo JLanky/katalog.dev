@@ -1,3 +1,10 @@
 <?php include "head.php" ?>
+
 <div style="text-align:center"><a href="index.php">Список книг автора</a></div>
+
+<h2><strong style="margin: 0 auto">Список книг автора <?=$authorObject->getAuthorName()?></strong></h2>
+<?php foreach ($books as $book):?>
+<div style="text-align:center">
+    <a href="form.php?book_id="<?php $book['book_id'] ?>"> <?= $book['title'] ?> </a></div><br>
+    <?php endforeach; ?>
 <?php include "foot.php" ?>

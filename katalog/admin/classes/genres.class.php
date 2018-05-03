@@ -45,7 +45,6 @@ class Genres
 
     public function getGenre($id)
     {
-
         $genre = $this->db->getOne('SELECT * FROM genres WHERE id=?', $id);
         $this->genre = $genre['genre'];
         return $this->genre;
@@ -58,9 +57,9 @@ class Genres
         if (!empty($id)) {
             $del_genre = $this->db->executeQuery('DELETE FROM `genres` WHERE id="' . $genre_id . '"');
             $del_genres_books = $this->db->executeQuery('DELETE FROM `books_genres` WHERE genre_id="' . $genre_id . '"');
-            print "<center class=\"t2\">Данные успешно удалены</center> ";
+            return "Данные успешно удалены";
         } else {
-            print'ID жанра задан неверно';
+          return 'ID жанра задан неверно';
         }
     }
 
@@ -73,12 +72,12 @@ class Genres
             $query = "INSERT INTO `genres` (`genre`) VALUES ('$genre');";
             $this->db->executeQuery($query);
 
-            print "<center class=\"t2\">Данные успешно добавлены</center> ";
+           return 'Данные успешно добавлены';
         } else {
             $error = '';
             $error .= "Вы не заполнили поле жанр<br>";
 
-            print "<center class=\"t\">$error</center> ";
+            return $error;
         }
     }
 

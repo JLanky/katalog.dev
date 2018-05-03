@@ -60,12 +60,12 @@ class Authors
 
             $this->db->executeQuery($query);
 
-            print "<center class=\"t2\">Автор добавлен успешно</center> ";
+           return 'Автор добавлен успешно';
         } else {
             $error = '';
             $error .= "Поле автор не заполнено или заполнено неверно<br>";
 
-            print "<center class=\"t\">$error</center> ";
+            return $error;
         }
     }
     public function deleteAuthor($author_id){
@@ -73,9 +73,9 @@ class Authors
             $query = "DELETE FROM `authors` WHERE author_id=". $author_id;
             $this->db->executeQuery($query);
 
-            print "<center class=\"t2\">Автор удален успешно.</center> ";
+            return 'Автор удален успешно.';
         } else {
-            print'ID указано неверно. Повторите попытку';
+             return 'ID указано неверно. Повторите попытку';
         }
     }
 }

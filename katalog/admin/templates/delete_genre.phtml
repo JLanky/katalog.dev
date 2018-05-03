@@ -6,12 +6,11 @@
         <td>Действия</td>
     </tr>
     <?php
-foreach ($genres as $genre){
-    print "<tr align=\"center\">";
-    print '<td><a href="genres_books.php?genre_id=' . $genre['id'] . '">' . $genre['genre'] . '</a></td>';
-    print '<td><a href="delete_genre.php?genre_id=' . $genre['id'] . '">' . 'Удалить' . '</tr></td>';
-    }
-    ?>
+foreach ($genres as $genre):?>
+    <tr align=\"center\">
+   <td><a href="../genres_books.php?genre_id=<?= $genre['id']?>"> <?= $genre['genre']?> </a></td>
+    <td><a href="delete_genre.php?genre_id=<?=$genre['id']?>">Удалить</tr></td>
+   <?php endforeach; ?>
 </table>
 <div style="text-align:center"><a href="index.php">Перейти на Главную</a></div>
 <?php include "foot.php" ?>

@@ -87,6 +87,7 @@ class Books {
 	}
 
 	public function validateBook( $data ) {
+        $error = '';
 		if ( ! empty( $data ) ) {
 
 			$name          = trim( $data["title"] );
@@ -125,13 +126,12 @@ class Books {
 				$error .= "Вы не заполнили поле 'цена'";
 			}
 			if ( $error != "" ) {
-				print "<center class=\"t\">$error</center> ";
+                $error = "<center class=\"t\">.$error.</center> ";
 
 			}
 
-			return $error;
-
 		}
+        return $error;
 	}
 
 	public function addBook( $data ) {
@@ -163,7 +163,7 @@ class Books {
 			$this->db->executeQuery( $queryInGenre, 'insert' );
 		}
 
-		print "<center class=\"t2\">Данные добавлены</center> ";
+		return 'Данные добавлены';
 	}
 
 	public function deleteBook( $id ) {
@@ -193,7 +193,6 @@ class Books {
 					case 'description':
 					case 'price':
 					    $sql = "UPDATE books SET  $k  ='$v' WHERE book_id =  ".$data['book_id'] ." LIMIT 1";
-					    var_dump($sql);
 
 						$sqlbooks = $this->db->executeQuery($sql   );
 
@@ -218,7 +217,7 @@ class Books {
 						break;
 				}
 			}
-			print "<center class=\"t2\">Данные изменены</center> ";
+			return 'Данные изменены';
 		}
 	}
 }

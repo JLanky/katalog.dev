@@ -1,11 +1,12 @@
-
 <?php include "head.php" ?>
-
+<?php if (!empty($error)): ?>
+    <?= $error; ?>
+<?php endif; ?>
 Название: <b><?= htmlspecialchars($book['title']) ?></b><br/>
 Цена: <b><?= htmlspecialchars($book['price']) ?></b><br/>
 Описание: <b><?= htmlspecialchars($book['description']) ?></b><br/>
-Автор: <b><?= implode(', ',$authorsHTML) ?></b><br/>
-Жанр: <b><?= implode(', ',$genresHTML) ?></b><br/>
+Автор: <b><?= implode(', ', $authorsHTML) ?></b><br/>
+Жанр: <b><?= implode(', ', $genresHTML) ?></b><br/>
 <h1>Форма заказа </h1>
 
 <form name="Login" action="form.php" method="post">

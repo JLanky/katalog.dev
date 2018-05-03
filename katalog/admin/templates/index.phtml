@@ -80,7 +80,7 @@
         <textarea name="description" id="description"></textarea>
     </p>
     <p>
-        <input type="submit" name="submit"/>
+        <input id="btn" type="submit" name="submit"/>
     </p>
 </div>
 <script>
@@ -124,5 +124,29 @@
         $("#edit").dialog();
     });
 
+    $( document ).ready(function() {
+        $("#btn").click(
+            function(){
+                sendAjaxForm('result_form', 'ajax_form', 'update_book.php');
+                return false;
+            }
+        );
+    });
+
+    function sendAjaxForm(result_form, ajax_form, url) {
+        $.ajax({
+            url:     url,
+            type:     "POST",
+            dataType: "html",
+            data: $("#"+ajax_form).serialize(),
+            success: function(response) {
+                result = $.parseJSON(response);
+                //$('#result_form').html('Имя: '+result.name+'<br>Телефон: '+result.phonenumber);
+            },
+            error: function(response) {
+                $('#result_form').html('Ошибка. Данные не отправлены.');
+            }
+        });
+    }
 </script>
 <?php include "foot.php" ?>

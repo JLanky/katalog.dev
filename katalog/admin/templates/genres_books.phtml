@@ -1,3 +1,12 @@
 <?php include "head.php" ?>
-<div style="text-align:center"><a href="index.php"><span>Перейти на Главную</span></a></div>
+
+<h2><strong style="margin: 0 auto">Список книг жанра
+        <?= $genre->getGenre($genre_id); ?> </strong></h2>
+<?php foreach ($books as $book): ?>
+    <div style="text-align: center">
+        <a href="form.php?book_id= .<?php $book['book_id']?>."><?= $book['title']?></a>
+    </div>
+<?php endforeach; ?>
+<br/>
+<div style="text-align:center; background-color: #002002;color:#ffffff;"><a href="index.php"><span>Перейти на Главную</span></a></div>
 <?php include "foot.php" ?>
